@@ -7,7 +7,7 @@ const fonts = Poppins({
 });
 const Logo = () => {
   return (
-    <div className=" hidden md:flex items-center gap-x-2">
+        <div className=" hidden md:flex items-center gap-x-2">
       <Image src="/logo.svg" alt="Logo" height="40" width="40" />
       <p className={cn("font-semibold", fonts.className)}>Notion</p>
     </div>
