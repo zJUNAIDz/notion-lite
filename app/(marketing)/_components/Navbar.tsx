@@ -3,6 +3,7 @@ import { useScrollTop } from "@/hooks/useScrollTop";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import { ModeToggle } from "@/components/mode-toggle";
+import { SignIn } from "@clerk/nextjs";
 
 const Navbar = () => {
   const isScrolled = useScrollTop();
@@ -17,7 +18,6 @@ const Navbar = () => {
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between w-full items-center flex gap-x-2">
         <ModeToggle /> 
-        
       </div>
     </div>
   );
