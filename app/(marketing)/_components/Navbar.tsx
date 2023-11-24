@@ -7,10 +7,12 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { SignInButton, SignUpButton, useUser } from "@clerk/clerk-react";
 import { useConvexAuth } from "convex/react";
 import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   const { isLoading, isAuthenticated } = useConvexAuth();
-  const { user } = useUser();
   const isScrolled = useScrollTop();
 
   return (
@@ -22,7 +24,7 @@ const Navbar = () => {
     >
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between w-full items-center flex gap-x-2">
-        {isLoading && <p>Loading...</p>}
+        {isLoading && <Spinner />}
         {!isAuthenticated && !isLoading && (
           <>
             <SignInButton mode="modal">
@@ -35,7 +37,14 @@ const Navbar = () => {
             </SignUpButton>
           </>
         )}
-        {isAuthenticated && <p>Logged In as {user?.username}</p>}
+        {isAuthenticated && !isLoading && (
+          <>
+            <Button>
+              <Link href="/documents">Enter Notion</Link>
+            </Button>
+            <UserButton />
+          </>
+        )}
         <ModeToggle />
       </div>
     </div>
