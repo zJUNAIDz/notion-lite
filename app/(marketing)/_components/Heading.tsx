@@ -32,7 +32,7 @@ const Heading = () => {
         </SignUpButton>
       )}
       {!isLoading && isAuthenticated && (
-        <Button>
+        <Button asChild>
           <Link href="/documents">Enter Notion</Link>
         </Button>
       )}
