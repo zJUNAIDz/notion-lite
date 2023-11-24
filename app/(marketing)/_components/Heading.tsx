@@ -19,8 +19,9 @@ const Heading = () => {
         Better, faster Work happens.
       </h3>
       {isLoading && (
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center justify-center">
           <Spinner size="lg" />
+          <p className=" text-muted-foreground ml-2">please wait...</p>
         </div>
       )}
       {!isLoading && !isAuthenticated && (
