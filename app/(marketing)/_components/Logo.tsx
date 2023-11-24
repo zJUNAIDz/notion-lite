@@ -7,7 +7,7 @@ const fonts = Poppins({
 });
 const Logo = () => {
   return (
-    <div className=" hidden md:flex items-center border-black-900 border">
+    <div className=" hidden md:flex items-center">
       <Image
         src="/logo.svg"
         alt="Logo"
