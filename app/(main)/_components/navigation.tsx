@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, MenuIcon } from "lucide-react";
-import { ElementRef, useRef, useState } from "react";
+import { ChevronLeft, MenuIcon } from "lucide-react";
+import { ElementRef, MouseEvent as ReactMouseEvent, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
 export const Navigation = () => {
   //*Responsive media query
@@ -11,6 +11,38 @@ export const Navigation = () => {
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isresetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile); //* Collapsed by default in mobile devices
+
+  //* handling resizing navbar actions
+  const handleMouseDown = (event: ReactMouseEvent<HTMLDivElement>) => {
+    event.preventDefault(); //* oh man why
+    event.stopPropagation();
+    isResizingRef.current = true;
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+    if (!isResizingRef.current) return;
+    let newWidth = event.clientX;
+    //* prevent this component width to go off limits
+    if (newWidth < 240) newWidth = 240;
+    if (newWidth > 480) newWidth = 480;
+
+    if (sidebarRef.current && navbarRef.current) {
+      sidebarRef.current.style.width = `${newWidth}px`;
+      navbarRef.current.style.setProperty("left", `${newWidth}px`);
+      navbarRef.current.style.setProperty(
+        "width",
+        `calc(100% - ${newWidth}px)`
+      );
+    }
+  };
+
+  const handleMouseUp = () => {
+    isResizingRef.current = false;
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
 
   return (
     <>
@@ -38,7 +70,11 @@ export const Navigation = () => {
           <p>Documents</p>
         </div>
         {/* grouping this hidden div with sidebar.. appears when hover on sidebar */}
-        <div className=" bg-[#c0c0c0] opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute w-2 h-full bg-primary/10 right-0 top-0" />
+        <div
+          onMouseDown={handleMouseDown}
+          onClick={() => {}}
+          className=" bg-[#c0c0c0] opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute w-2 h-full bg-primary/10 right-0 top-0"
+        />
       </aside>
       <div
         ref={navbarRef}
