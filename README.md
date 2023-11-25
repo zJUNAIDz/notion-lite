@@ -1,4 +1,4 @@
-## Notion Clone Built on [Next.js][nextjs]
-
+# Notion Clone Built on [Next.js][nextjs]
 
 [nextjs]: https://nextjs.org
+
