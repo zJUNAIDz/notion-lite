@@ -9,18 +9,18 @@ const Logo = () => {
   return (
     <div className=" hidden md:flex items-center">
       <Image
-        src="/logo.svg"
-        alt="Logo"
-        height="40"
-        width="40"
+        src="/notion-icon.svg"
+        alt="notion-icon"
+        height="35"
+        width="35"
         className=" dark:hidden"
       />
       <Image
-        src="/logo-dark.svg"
-        alt="Logo"
-        height="40"
-        width="40"
-        className="hidden dark:block"
+        src="/notion-icon-dark.svg"
+        alt="notion-icon"
+        height="35"
+        width="35"
+        className="hidden filter invert-1 dark:block"
       />
       <p className={cn("font-semibold", fonts.className)}>Notion</p>
     </div>
