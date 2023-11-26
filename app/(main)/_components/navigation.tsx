@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ChevronLeft, MenuIcon } from "lucide-react";
+import { ChevronLeftSquare, MenuIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
   ElementRef,
@@ -28,7 +28,6 @@ export const Navigation = () => {
 
   useEffect(() => {
     if (isMobile) collapse();
-    
   }, [pathname, isMobile]);
 
   //* handling resizing navbar actions
@@ -111,11 +110,11 @@ export const Navigation = () => {
           role="button"
           onClick={collapse}
           className={cn(
-            "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+            "h-9 w-9 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
             isMobile && "opacity-100"
           )}
         >
-          <ChevronLeft className=" h-6 w-6" />
+          <ChevronLeftSquare className=" h-9 w-9" />
         </div>
         <div>
           <p>Action Items</p>
