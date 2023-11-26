@@ -1,9 +1,8 @@
+import { ConvexClientProvider } from "@/components/providers/convex-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import { ClerkProvider } from "@clerk/nextjs";
-import { ConvexClientProvider } from "@/components/providers/convex-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,13 +13,13 @@ export const metadata: Metadata = {
     icon: [
       {
         media: "(prefers-color-scheme: light)",
-        url: "/logo.svg",
-        href: "/logo.svg",
+        url: "/notion-icon.svg",
+        href: "/notion-icon.svg",
       },
       {
         media: "(prefers-color-scheme: dark)",
-        url: "/logo-dark.svg",
-        href: "/logo-dark.svg",
+        url: "/notion-favicon.jpg",
+        href: "/notion-favicon.jpg",
       },
     ],
   },
