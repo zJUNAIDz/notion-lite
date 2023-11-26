@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
+import { UserItem } from "./user-item";
 export const Navigation = () => {
   const pathname = usePathname();
   //*Responsive media query
@@ -117,7 +118,7 @@ export const Navigation = () => {
           <ChevronLeftSquare className=" h-9 w-9" />
         </div>
         <div>
-          <p>Action Items</p>
+          <UserItem />
         </div>
         <div className=" mt-4">
           <p>Documents</p>
