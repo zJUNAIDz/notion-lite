@@ -111,11 +111,11 @@ export const Navigation = () => {
           role="button"
           onClick={collapse}
           className={cn(
-            "h-9 w-9 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+            "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
             isMobile && "opacity-100"
           )}
         >
-          <ChevronLeftSquare className=" h-9 w-9" />
+          <ChevronLeftSquare className=" h-6 w-6" />
         </div>
         <div>
           <UserItem />

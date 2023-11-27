@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+import { ChevronsUpDown } from "lucide-react";
 
 export const UserItem = () => {
   const { user } = useUser();
@@ -19,11 +20,16 @@ export const UserItem = () => {
           className=" flex items-center text-sm p-3 w-full hover:bg-primary/5"
         >
           <div className="gap-x-2 flex items-center max-w-[150px]">
-            <Avatar className=" h-5 w-5">
+            <Avatar className=" h-10 w-10">
               <AvatarImage src={user?.imageUrl} alt="User Avatar" />
             </Avatar>
-            <span>{user?.firstName}&apos;s Notion</span>
+            <span className="text-start font-medium line-clamp-1">
+              {user?.fullName}
+            </span>
           </div>
+          <ChevronsUpDown
+            className="ml-2 h-4 w-4"
+          />
         </div>
       </DropdownMenuLabel>
     </DropdownMenu>

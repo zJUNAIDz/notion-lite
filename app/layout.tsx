@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { Metadata } from "next";
@@ -41,11 +42,12 @@ export default function RootLayout({
             enableSystem
             storageKey="notion-theme"
           >
+            <Toaster position="bottom-center" />
             {children}
             <Analytics />
           </ThemeProvider>
         </ConvexClientProvider>
       </body>
     </html>
-  );
+  );  
 }
