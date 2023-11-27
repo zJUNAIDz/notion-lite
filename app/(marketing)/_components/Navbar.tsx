@@ -18,12 +18,12 @@ const Navbar = () => {
   return (
     <div
       className={cn(
-        "z-3 bg-background dark:bg-[#1F1F1F] fixed top-0 items-center flex w-full p-6",
+        "z-[3] bg-background dark:bg-[#1F1F1F] fixed top-0 flex items-center  w-full p-6 justify-between",
         isScrolled && " border-b shadow-sm "
       )}
     >
       <Logo />
-      <div className="md:ml-auto md:justify-end justify-between w-full items-center flex gap-x-2">
+      <div className="md:ml-auto md:justify-end justify-between  items-center flex gap-x-2">
         {isLoading && <Spinner />}
         {!isAuthenticated && !isLoading && (
           <>
@@ -39,13 +39,15 @@ const Navbar = () => {
         )}
         {isAuthenticated && !isLoading && (
           <>
-            <Button>
+            <Button className=" hidden md:block">
               <Link href="/documents">Enter Notion</Link>
             </Button>
-            <UserButton />
           </>
         )}
-        <ModeToggle />
+        <div className=" flex space-x-3 items-center">
+          {isAuthenticated && !isLoading && <UserButton />}
+          <ModeToggle />
+        </div>
       </div>
     </div>
   );
