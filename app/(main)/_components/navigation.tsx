@@ -10,8 +10,12 @@ import {
 } from "react";
 import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
 import { UserItem } from "./user-item";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 export const Navigation = () => {
   const pathname = usePathname();
+  //* get all documents from db
+  const documents = useQuery(api.documents.get);
   //*Responsive media query
   const isMobile = useMediaQuery("(max-width:768px)");
   //* refernces to Dom elements
@@ -121,7 +125,9 @@ export const Navigation = () => {
           <UserItem />
         </div>
         <div className=" mt-4">
-          <p>Documents</p>
+          {documents?.map((document) => (
+            <p key={document._id}>{document.title}</p>
+          ))}
         </div>
         {/* grouping this hidden div with sidebar.. appears when hover on sidebar */}
         <div

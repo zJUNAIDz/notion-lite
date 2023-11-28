@@ -11,7 +11,6 @@ const DocumentsPage = () => {
   //* to fetch user info
   const { user } = useUser();
   //* fetch whole document
-  const getNotes = useQuery(api.documents.get);
   //* To mutate(Add) new query
   const createNote = useMutation(api.documents.create);
 

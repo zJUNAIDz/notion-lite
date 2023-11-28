@@ -9,7 +9,7 @@ export const get = query({
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("User not Authenticated");
     //* query all documents and return it
-    const documents = await ctx.db.query("documents");
+    const documents = await ctx.db.query("documents").collect();
     return documents;
   },
 });
