@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ChevronLeftSquare, MenuIcon } from "lucide-react";
+import { ChevronLeftSquare, MenuIcon, PlusCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
   ElementRef,
@@ -10,12 +10,16 @@ import {
 } from "react";
 import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
 import { UserItem } from "./user-item";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import Item from "./items";
+import { toast } from "sonner";
 export const Navigation = () => {
   const pathname = usePathname();
   //* get all documents from db
   const documents = useQuery(api.documents.get);
+  //* Create new document(note)
+  const createNote = useMutation(api.documents.create);
   //*Responsive media query
   const isMobile = useMediaQuery("(max-width:768px)");
   //* refernces to Dom elements
@@ -29,13 +33,18 @@ export const Navigation = () => {
   useEffect(() => {
     if (isMobile) collapse();
     else resetWidth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile]);
 
   useEffect(() => {
     if (isMobile) collapse();
   }, [pathname, isMobile]);
 
-  //* handling resizing navbar actions
+  /**
+   * Handles event of holding sidebar border
+   * @param event
+   * @returns nothing
+   */
   const handleMouseDown = (event: ReactMouseEvent<HTMLDivElement>) => {
     event.preventDefault(); //* oh man why
     event.stopPropagation();
@@ -67,6 +76,16 @@ export const Navigation = () => {
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
+  //* creates a new note in DB
+  const handleCreateNote = () => {
+    //* returns a promise
+    const promise = createNote({ title: "Untitled" });
+    toast.promise(promise, {
+      loading: "Creating new note...",
+      success: "Nwe note created.",
+      error: "Failed to create note.",
+    });
+  };
   //* to reset sidebar width to minimum (default)
   const resetWidth = () => {
     setIsCollapsed(false);
@@ -123,6 +142,7 @@ export const Navigation = () => {
         </div>
         <div>
           <UserItem />
+          <Item onClick={handleCreateNote} label="New Page" icon={PlusCircle} />
         </div>
         <div className=" mt-4">
           {documents?.map((document) => (
