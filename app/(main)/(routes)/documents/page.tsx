@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
-import { useMutation } from "convex/react";
+import { useMutation, useQueries, useQuery } from "convex/react";
 import { PlusCircleIcon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -10,7 +10,8 @@ import { toast } from "sonner";
 const DocumentsPage = () => {
   //* to fetch user info
   const { user } = useUser();
-  
+  //* fetch whole document
+  const getNotes = useQuery(api.documents.get);
   //* To mutate(Add) new query
   const createNote = useMutation(api.documents.create);
 
