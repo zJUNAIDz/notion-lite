@@ -1,4 +1,5 @@
 "use_client";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronRight, LucideIcon } from "lucide-react";
@@ -16,7 +17,7 @@ interface ItemProps {
   onClick: () => void;
 }
 
-const Item = ({
+export const Item = ({
   id,
   documentIcon,
   active,
@@ -28,12 +29,13 @@ const Item = ({
   onExpand,
   onClick,
 }: ItemProps) => {
+  const documentPaddingLeft = level ? level * 12 + 12 : 12;
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   return (
     <div
       role="button"
       onClick={onClick}
-      style={{ paddingLeft: level ? `${level * 12 + 12}px` : "12px" }}
+      style={{ paddingLeft: `${documentPaddingLeft}px` }}
       className={cn(
         "group flex items-center justify-between space-x-1 text-sm min-h-[27px] py-1 pr-3 w-full hover:bg-primary/5 text-muted-foreground font-medium",
         active && "bg-primary/5 text-primary    "
@@ -65,4 +67,17 @@ const Item = ({
   );
 };
 
-export default Item;
+//* Creating Skeleton sub-component as a fallback for loading documents list
+
+Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
+  const levelPadding = level ? level * 12 + 12 : 12;
+  return (
+    <div
+      style={{ paddingLeft: level ? `${levelPadding + 12}px` : "12px" }}
+      className=" flex gap-x-2 py-3"
+    >
+      <Skeleton className="h-4 w-4" />
+      <Skeleton className="h-4 w-[30%]" />
+    </div>
+  );
+};

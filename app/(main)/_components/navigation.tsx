@@ -1,6 +1,6 @@
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
-import { useMutation, useQuery } from "convex/react";
+import { useMutation } from "convex/react";
 import {
   ChevronLeftSquare,
   MenuIcon,
@@ -20,10 +20,9 @@ import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
 import Item from "./item";
 import { UserItem } from "./user-item";
+
 export const Navigation = () => {
   const pathname = usePathname();
-  //* get all documents from db
-  const documents = useQuery(api.documents.get);
   //* Create new document(note)
   const createNote = useMutation(api.documents.create);
   //*Responsive media query
@@ -92,6 +91,7 @@ export const Navigation = () => {
       error: "Failed to create note.",
     });
   };
+
   //* to reset sidebar width to minimum (default)
   const resetWidth = () => {
     setIsCollapsed(false);
@@ -157,11 +157,7 @@ export const Navigation = () => {
           {/* Net Note button */}
           <Item onClick={handleCreateNote} label="New Page" icon={PlusCircle} />
         </div>
-        <div className=" mt-4">
-          {documents?.map((document) => (
-            <p key={document._id}>{document.title}</p>
-          ))}
-        </div>
+        <div className=" mt-4"></div>
         {/* grouping this hidden div with sidebar.. appears when hover on sidebar */}
         <div
           onMouseDown={handleMouseDown}
@@ -190,3 +186,5 @@ export const Navigation = () => {
     </>
   );
 };
+
+
