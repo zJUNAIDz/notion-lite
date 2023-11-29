@@ -13,6 +13,32 @@ export const get = query({
     return documents;
   },
 });
+
+//* to use it for the list of documents
+export const getSidebar = query({
+  args: {
+    parentDocument: v.optional(v.id('documents'))
+  },
+  handler: async (ctx, args) => {
+    //*Checks if Authenticated
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) throw new Error("Authentication Failed")
+    //* Get user Id if true
+    const userId = identity.subject;
+    //* Appropriate data (child documents by parent)
+    const documents = ctx.db
+      .query('documents')
+      .withIndex('by_user_parent', q =>
+        q
+          .eq('userId', userId)
+          .eq('parentDocument', args.parentDocument))
+      .filter(q => q.eq(q.field('isArchieved'), false))
+      .order('desc')
+      .collect()
+    return documents;
+  }
+})
+
 //* create note function 
 export const create = mutation({
   args: {
