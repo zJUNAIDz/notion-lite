@@ -1,6 +1,5 @@
 "use client";
 import Spinner from "@/components/ui/spinner";
-import { useAuth } from "@clerk/nextjs";
 import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
