@@ -1,3 +1,5 @@
+"use client";
+
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
@@ -18,8 +20,9 @@ import {
 } from "react";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
-import Item from "./item";
+import { Item } from "./item";
 import { UserItem } from "./user-item";
+import DocumentList from "./document-list";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -157,8 +160,11 @@ export const Navigation = () => {
           {/* Net Note button */}
           <Item onClick={handleCreateNote} label="New Page" icon={PlusCircle} />
         </div>
-        <div className=" mt-4"></div>
+        <div className=" mt-4">
+          <DocumentList />
+        </div>
         {/* grouping this hidden div with sidebar.. appears when hover on sidebar */}
+
         <div
           onMouseDown={handleMouseDown}
           onClick={resetWidth}
@@ -186,5 +192,3 @@ export const Navigation = () => {
     </>
   );
 };
-
-

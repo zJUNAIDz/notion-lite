@@ -37,14 +37,15 @@ export const Item = ({
       onClick={onClick}
       style={{ paddingLeft: `${documentPaddingLeft}px` }}
       className={cn(
-        "group flex items-center justify-between space-x-1 text-sm min-h-[27px] py-1 pr-3 w-full hover:bg-primary/5 text-muted-foreground font-medium",
+        "group flex items-center space-x-1 text-sm min-h-[27px] py-1 pr-3 w-full hover:bg-primary/5 text-muted-foreground font-medium",
         active && "bg-primary/5 text-primary    "
       )}
+      
     >
       {!!id && (
         <div
           role="button"
-          className=" h-full rounded-sm bg-neutral-400 dark:bg-neutral-600 mr-1"
+          className=" h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-1"
           onClick={() => {}}
         >
           <ChevronIcon className="h-4 w-4 shrink-0 text-muted-foreground/50" />
@@ -70,12 +71,12 @@ export const Item = ({
 //* Creating Skeleton sub-component as a fallback for loading documents list
 
 Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
-  const levelPadding = level ? level * 12 + 12 : 12;
+  const documentPaddingLeft = level ? level * 12 + 12 : 12;
   return (
     <div
-      style={{ paddingLeft: level ? `${levelPadding + 12}px` : "12px" }}
+      style={{ paddingLeft: `${documentPaddingLeft}px` }}
       className=" flex gap-x-2 py-3"
-    >
+    >hmm?
       <Skeleton className="h-4 w-4" />
       <Skeleton className="h-4 w-[30%]" />
     </div>
