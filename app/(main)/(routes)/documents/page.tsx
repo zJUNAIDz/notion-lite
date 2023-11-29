@@ -30,15 +30,15 @@ const DocumentsPage = () => {
       <Image
         src="/empty.png"
         alt="Empty document"
-        height="360"
-        width="360"
+        height="250"
+        width="250"
         className="block dark:hidden "
       />
       <Image
         src="/empty-dark.png"
         alt="Empty document"
-        height="360"
-        width="360"
+        height="250"
+        width="250"
         className="hidden dark:block"
       />
       <h2 className=" text-xl font-medium text-muted-foreground">

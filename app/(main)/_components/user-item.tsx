@@ -3,10 +3,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@clerk/nextjs";
 import {
   DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuLabel
 } from "@radix-ui/react-dropdown-menu";
 import { ChevronsUpDown } from "lucide-react";
 

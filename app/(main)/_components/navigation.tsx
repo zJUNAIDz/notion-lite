@@ -1,4 +1,6 @@
+import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
+import { useMutation, useQuery } from "convex/react";
 import { ChevronLeftSquare, MenuIcon, PlusCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -8,12 +10,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
-import { UserItem } from "./user-item";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import Item from "./items";
 import { toast } from "sonner";
+import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
+import Item from "./item";
+import { UserItem } from "./user-item";
 export const Navigation = () => {
   const pathname = usePathname();
   //* get all documents from db
@@ -82,7 +82,7 @@ export const Navigation = () => {
     const promise = createNote({ title: "Untitled" });
     toast.promise(promise, {
       loading: "Creating new note...",
-      success: "Nwe note created.",
+      success: "New note created.",
       error: "Failed to create note.",
     });
   };
