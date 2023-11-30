@@ -31,6 +31,15 @@ export const Item = ({
 }: ItemProps) => {
   const documentPaddingLeft = level ? level * 12 + 12 : 12;
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
+
+  const handleExpand = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onExpand?.();
+  };
+
   return (
     <div
       role="button"
@@ -40,13 +49,12 @@ export const Item = ({
         "group flex items-center space-x-1 text-sm min-h-[27px] py-1 pr-3 w-full hover:bg-primary/5 text-muted-foreground font-medium",
         active && "bg-primary/5 text-primary    "
       )}
-      
     >
       {!!id && (
         <div
           role="button"
           className=" h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-1"
-          onClick={() => {}}
+          onClick={handleExpand}
         >
           <ChevronIcon className="h-4 w-4 shrink-0 text-muted-foreground/50" />
         </div>
@@ -76,7 +84,7 @@ Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
     <div
       style={{ paddingLeft: `${documentPaddingLeft}px` }}
       className=" flex gap-x-2 py-3"
-    >hmm?
+    >
       <Skeleton className="h-4 w-4" />
       <Skeleton className="h-4 w-[30%]" />
     </div>
