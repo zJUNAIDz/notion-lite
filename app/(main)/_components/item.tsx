@@ -1,10 +1,26 @@
 "use_client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
+import Image from "next/image";
 import { useMutation } from "convex/react";
-import { ChevronDown, ChevronRight, LucideIcon, PlusIcon } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  LucideIcon,
+  MoreHorizontal,
+  PlusIcon,
+  Trash,
+} from "lucide-react";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
 
@@ -34,7 +50,7 @@ export const Item = ({
   onClick,
 }: ItemProps) => {
   // const router = useRouter();
-
+  const { user } = useUser();
   const documentPaddingLeft = level ? level * 12 + 12 : 12;
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   //* Mutation object to create note
@@ -104,11 +120,43 @@ export const Item = ({
       )}
 
       {!!id && (
-        <div className="ml-auto flex items-center gap-x-2 w-full">
+        <div className="ml-auto flex items-center gap-x-2  w-full">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
+              asChild
+            >
+              <div
+                role="button"
+                className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm bg-neutral-300 dark:bg-neutral-500"
+              >
+                <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-60"
+              align="start"
+              side="right"
+              forceMount
+            >
+              <DropdownMenuItem className=" text-muted-foreground">
+                <Trash className="h-4 w-4 mr-2 " />
+                Delete
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <div className=" text-xs text-muted-foreground p-2">
+                Last edited by:
+                {user?.fullName}
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <div
             role="button"
             onClick={onCreateChildNote}
-            className="opacity-0  group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-2"
+            className="opacity-0  group-hover:opacity-100 h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-2"
           >
             <PlusIcon className="h-4 w-4 text-muted-foreground" />
           </div>
@@ -125,9 +173,9 @@ Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
   return (
     <div
       style={{ paddingLeft: `${documentPaddingLeft}px` }}
-      className=" flex gap-x-2 py-3"
+      className=" flex gap-x-2 py-3 h-full"
     >
-      <Skeleton className="h-4 w-4" />
+      <Skeleton className="w-[100px] h-[20px] rounded-full" />
       <Skeleton className="h-4 w-[30%]" />
     </div>
   );
