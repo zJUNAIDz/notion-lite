@@ -1,8 +1,12 @@
 "use_client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronRight, LucideIcon } from "lucide-react";
+import { useMutation } from "convex/react";
+import { ChevronDown, ChevronRight, LucideIcon, PlusIcon } from "lucide-react";
+import { useRouter } from "next/router";
+import { toast } from "sonner";
 
 interface ItemProps {
   id?: Id<"documents">;
@@ -29,15 +33,39 @@ export const Item = ({
   onExpand,
   onClick,
 }: ItemProps) => {
+  // const router = useRouter();
+
   const documentPaddingLeft = level ? level * 12 + 12 : 12;
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
+  //* Mutation object to create note
+  const createNote = useMutation(api.documents.create);
 
   const handleExpand = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    event.preventDefault();
     event.stopPropagation();
     onExpand?.();
+  };
+
+  const onCreateChildNote = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    if (!id) return;
+    const promise = createNote({ title: "Untitled", parentDocument: id }).then(
+      (documentId) => {
+        if (!expanded) {
+          onExpand?.();
+          // router.push(`/documents/${documentId}`);
+        }
+      }
+    );
+
+    toast.promise(promise, {
+      loading: "Creating a new note...",
+      success: "New note created",
+      error: "Failed to create note",
+    });
   };
 
   return (
@@ -68,9 +96,23 @@ export const Item = ({
       </div>
 
       {isSearch && (
-        <kbd className=" ml-auto pointer-event-none inline-flex  h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono font-medium text-muted-foreground">
-          <span className=" text-xs">CTRL</span>K
-        </kbd>
+        <div className=" flex justify-end w-full">
+          <kbd className=" ml-auto pointer-event-none inline-flex  h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono font-medium text-muted-foreground">
+            <span className=" text-xs">CTRL</span>K
+          </kbd>
+        </div>
+      )}
+
+      {!!id && (
+        <div className="ml-auto flex items-center gap-x-2 w-full">
+          <div
+            role="button"
+            onClick={onCreateChildNote}
+            className="opacity-0  group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 mr-2"
+          >
+            <PlusIcon className="h-4 w-4 text-muted-foreground" />
+          </div>
+        </div>
       )}
     </div>
   );
