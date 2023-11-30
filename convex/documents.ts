@@ -64,3 +64,42 @@ export const create = mutation({
     return document;
   },
 });
+
+
+const archieve = mutation({
+  args: { id: v.id('documents') },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) throw new Error('Not Authenticated')
+
+    const userId = identity.subject;
+    const existingDocument = await ctx.db.get(args.id)
+    if (!existingDocument) throw new Error('Document not found')
+
+    if (existingDocument.userId !== userId) throw new Error('Not Authenticated');
+    //* move it to archieve
+
+    //*catch all child nodes recursively
+    const recursiveArchieve = async (documentId: Id<'documents'>) => {
+      const children = await ctx.db
+        .query('documents')
+        .withIndex('by_user_parent', q => q
+          .eq('userId', userId)
+          .eq('parentDocument', documentId))
+        .collect();
+
+
+      for (let child of children) {
+        await ctx.db.patch(child._id, { isArchieved: true });
+        await recursiveArchieve(child._id);
+      }
+
+    }
+
+    const document = ctx.db.patch(existingDocument._id, {
+      isArchieved: true,
+    });
+
+    return document
+  }
+})
