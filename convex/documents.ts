@@ -66,7 +66,7 @@ export const create = mutation({
 });
 
 
-const archieve = mutation({
+export const archieve = mutation({
   args: { id: v.id('documents') },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -99,7 +99,7 @@ const archieve = mutation({
     const document = ctx.db.patch(existingDocument._id, {
       isArchieved: true,
     });
-
-    return document
+    recursiveArchieve(args.id);
+    return document;
   }
 })

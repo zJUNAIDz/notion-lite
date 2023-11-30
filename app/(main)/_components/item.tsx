@@ -55,6 +55,18 @@ export const Item = ({
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   //* Mutation object to create note
   const createNote = useMutation(api.documents.create);
+  const archieveNote = useMutation(api.documents.archieve);
+
+  const onArchieve = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
+    if (!id) return;
+    const promise = archieveNote({ id });
+    toast.promise(promise, {
+      loading: "Moving to trash...",
+      success: "Note moved to trash",
+      error: "Failed to archieve note",
+    });
+  };
 
   const handleExpand = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -141,7 +153,11 @@ export const Item = ({
               side="right"
               forceMount
             >
-              <DropdownMenuItem className=" text-muted-foreground">
+              <DropdownMenuItem
+                role="button"
+                onClick={onArchieve}
+                className=" text-muted-foreground"
+              >
                 <Trash className="h-4 w-4 mr-2 " />
                 Delete
               </DropdownMenuItem>
