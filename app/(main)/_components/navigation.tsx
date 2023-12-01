@@ -25,8 +25,12 @@ import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but 
 import { Item } from "./item";
 import { UserItem } from "./user-item";
 import DocumentList from "./document-list";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import TrashBox from "./trash-box";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -170,15 +174,15 @@ export const Navigation = () => {
           {/* another add note button  */}
           <Item onClick={handleCreateNote} icon={Plus} label="Add a page" />
           {/* Trash Button */}
-          <Popover >
+          <Popover>
             <PopoverTrigger className="w-full">
-              <Item icon={Trash} label="Trash"  />
+              <Item icon={Trash} label="Trash" />
             </PopoverTrigger>
             <PopoverContent
               side={isMobile ? "bottom" : "right"}
               className="p-0 w-72"
             >
-              <p>Trash Box</p>
+              <TrashBox />
             </PopoverContent>
           </Popover>
         </div>

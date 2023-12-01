@@ -108,7 +108,7 @@ export const archieve = mutation({
 //* Get all documents with isArchieved = false
 
 export const getArchieved = query({
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error('Not Authenticated');
 
@@ -127,7 +127,7 @@ export const getArchieved = query({
 
 //* TO set isArchieved back to  false recursively
 
-const unArchieve = mutation({
+export const unArchieve = mutation({
   args: { id: v.id('documents') },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
