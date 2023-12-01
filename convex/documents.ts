@@ -170,9 +170,9 @@ const unArchieve = mutation({
 
       }
     }
-    await ctx.db.patch(args.id, options);
+    const document = await ctx.db.patch(args.id, options);
     recursiveRestore(args.id);
-    return existingDocuments;
+    return document;
   }
 })
 
@@ -185,9 +185,14 @@ export const deleteNote = mutation({
     if (!identity) throw new Error('Not Authenticated');
 
     const userId = identity.subject;
-    if (!userId) throw new Error('Not Authorized');
 
-    const document = await ctx.db.delete(args.id);
+    const existingDocument = await ctx.db.get(args.id);
+
+    if (!existingDocument) throw new Error('Document not found');
+    if (existingDocument.userId !== userId) throw new Error('Unauthorized');
+
+    const document = await ctx.db.delete(args.id)
+
     return document;
   }
 }); 
