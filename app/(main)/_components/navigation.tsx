@@ -6,9 +6,11 @@ import { useMutation } from "convex/react";
 import {
   ChevronLeftSquare,
   MenuIcon,
+  Plus,
   PlusCircle,
   Search,
   Settings,
+  Trash,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -23,6 +25,8 @@ import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but 
 import { Item } from "./item";
 import { UserItem } from "./user-item";
 import DocumentList from "./document-list";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -161,7 +165,22 @@ export const Navigation = () => {
           <Item onClick={handleCreateNote} label="New Page" icon={PlusCircle} />
         </div>
         <div className=" mt-4">
+          {/* List of document  */}
           <DocumentList />
+          {/* another add note button  */}
+          <Item onClick={handleCreateNote} icon={Plus} label="Add a page" />
+          {/* Trash Button */}
+          <Popover >
+            <PopoverTrigger className="w-full">
+              <Item icon={Trash} label="Trash"  />
+            </PopoverTrigger>
+            <PopoverContent
+              side={isMobile ? "bottom" : "right"}
+              className="p-0 w-72"
+            >
+              <p>Trash Box</p>
+            </PopoverContent>
+          </Popover>
         </div>
         {/* grouping this hidden div with sidebar.. appears when hover on sidebar */}
 

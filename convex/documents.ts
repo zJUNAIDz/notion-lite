@@ -103,3 +103,76 @@ export const archieve = mutation({
     return document;
   }
 })
+
+
+//* Get all documents with isArchieved = false
+
+export const getArchieved = query({
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error('Not Authenticated');
+
+    const userId = identity.subject;
+
+    const ducuments = ctx.db
+      .query('documents')
+      .withIndex('by_user', q => q
+        .eq('userId', userId))
+      .filter(q => q.eq(q.field('isArchieved'), true))
+      .order('desc')
+      .collect()
+    return ducuments;
+  }
+});
+
+//* TO set isArchieved back to  false recursively
+
+const unArchieve = mutation({
+  args: { id: v.id('documents') },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error('Not Authenticated')
+
+    const userId = identity.subject;
+    const existingDocuments = await ctx.db.get(args.id)
+
+    if (!existingDocuments) throw new Error('Document not found');
+    if (existingDocuments.userId !== userId) throw new Error('Not Authorized');
+
+    //* Recursively restore Archieved documents
+    const recursiveRestore = async (documentId: Id<'documents'>) => {
+      const children = await ctx.db.query('documents')
+        .withIndex('by_user_parent', q => q
+          .eq('userId', userId)
+          .eq('parentDocument', documentId))
+        .collect()
+
+      //* calling this function for each children
+      for (const child of children) {
+        await ctx.db.patch(child._id, {
+          isArchieved: false,
+        });
+        recursiveRestore(child._id);
+      }
+    }
+
+
+    const options: Partial<Doc<'documents'>> = {
+      isArchieved: false,
+    }
+
+
+    if (existingDocuments.parentDocument) {
+      const parent = await ctx.db.get(existingDocuments.parentDocument);
+
+      if (parent?.isArchieved) {
+        options.parentDocument = undefined;
+
+      }
+    }
+    await ctx.db.patch(args.id, options);
+    recursiveRestore(args.id);
+    return existingDocuments;
+  }
+})
+

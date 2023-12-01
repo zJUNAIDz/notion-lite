@@ -11,7 +11,6 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
-import Image from "next/image";
 import { useMutation } from "convex/react";
 import {
   ChevronDown,
@@ -21,7 +20,6 @@ import {
   PlusIcon,
   Trash,
 } from "lucide-react";
-import { useRouter } from "next/router";
 import { toast } from "sonner";
 
 interface ItemProps {
@@ -34,7 +32,7 @@ interface ItemProps {
   onExpand?: () => void;
   label: string;
   icon: LucideIcon;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const Item = ({
@@ -124,7 +122,7 @@ export const Item = ({
       </div>
 
       {isSearch && (
-        <div className=" flex justify-end w-full">
+        <div className="hidden  md:flex justify-end w-full">
           <kbd className=" ml-auto pointer-event-none inline-flex  h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono font-medium text-muted-foreground">
             <span className=" text-xs">CTRL</span>K
           </kbd>
@@ -156,10 +154,9 @@ export const Item = ({
               <DropdownMenuItem
                 role="button"
                 onClick={onArchieve}
-                className=" text-muted-foreground"
+                className="group text-red-600 hover:bg-red-300 "
               >
-                <Trash className="h-4 w-4 mr-2 " />
-                Delete
+                <Item label="Trash" icon={Trash} />
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <div className=" text-xs text-muted-foreground p-2">
@@ -176,6 +173,7 @@ export const Item = ({
           >
             <PlusIcon className="h-4 w-4 text-muted-foreground" />
           </div>
+          {}
         </div>
       )}
     </div>
@@ -189,9 +187,9 @@ Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
   return (
     <div
       style={{ paddingLeft: `${documentPaddingLeft}px` }}
-      className=" flex gap-x-2 py-3 h-full"
+      className=" flex gap-x-2 py-3 "
     >
-      <Skeleton className="w-[100px] h-[20px] rounded-full" />
+      <Skeleton className="h-4 w-4" />
       <Skeleton className="h-4 w-[30%]" />
     </div>
   );
