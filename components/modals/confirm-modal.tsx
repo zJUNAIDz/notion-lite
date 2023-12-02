@@ -17,7 +17,7 @@ interface ConfirmModalProps {
   onConfirm: () => void;
 }
 
-export const COnfirmModal = ({ children, onConfirm }: ConfirmModalProps) => {
+export const ConfirmModal = ({ children, onConfirm }: ConfirmModalProps) => {
   const handleConfirm = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -35,7 +35,7 @@ export const COnfirmModal = ({ children, onConfirm }: ConfirmModalProps) => {
           <AlertDialogTitle>Are you Sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action will permanently delete this Document and cannot be
-            undone.
+            restored.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

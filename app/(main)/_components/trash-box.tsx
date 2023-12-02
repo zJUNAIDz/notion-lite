@@ -1,4 +1,5 @@
 "use client";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { Input } from "@/components/ui/input";
 import Spinner from "@/components/ui/spinner";
 import { api } from "@/convex/_generated/api";
@@ -40,7 +41,6 @@ const TrashBox = () => {
   };
 
   const onDelete = (documentId: Id<"documents">) => {
-  
     const promise = deleteNote({ id: documentId });
     toast.promise(promise, {
       loading: "Deleting note...",
@@ -52,7 +52,6 @@ const TrashBox = () => {
       router.push("/documents");
     }
   };
-
 
   if (documents === undefined)
     return (
@@ -93,16 +92,17 @@ const TrashBox = () => {
               >
                 <Undo className="h-4 w-4 text-muted-foreground" />
               </div>
-              <div
-                role="button"
-                onClick={() => onDelete(document._id)}
-                className="rounded-sm p-2 hover:bg-neutral-200"
-              >
-                <Trash className="h-4 w-4 text-muted-foreground" />
-              </div>
+              <ConfirmModal onConfirm={() => onDelete(document._id)}>
+                <div
+                  role="button"
+                  className="rounded-sm p-2 hover:bg-neutral-200"
+                >
+                  <Trash className="h-4 w-4 text-muted-foreground" />
+                </div>
+              </ConfirmModal>
             </div>
           </div>
-        ))} 
+        ))}
       </div>
     </div>
   );
