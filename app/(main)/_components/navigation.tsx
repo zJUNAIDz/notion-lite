@@ -31,6 +31,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import TrashBox from "./trash-box";
+import { useSearch } from "@/hooks/use-search";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -45,6 +46,8 @@ export const Navigation = () => {
   const [isresetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile); //* Collapsed by default in mobile devices
 
+  const onOpenSearchBox = useSearch((store) => store.onOpen);
+  //* or use const search = useSearch() and pass search.onOpen to element
   //* sidebar initial form
   useEffect(() => {
     if (isMobile) collapse();
@@ -161,7 +164,12 @@ export const Navigation = () => {
           <UserItem />
 
           {/* Search button */}
-          <Item onClick={() => {}} icon={Search} label="Search" isSearch />
+          <Item
+            onClick={onOpenSearchBox}
+            icon={Search}
+            label="Search"
+            isSearch
+          />
 
           {/* Settings Button  */}
           <Item onClick={() => {}} icon={Settings} label="Settings" />
