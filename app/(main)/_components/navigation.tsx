@@ -32,6 +32,8 @@ import {
 } from "@/components/ui/popover";
 import TrashBox from "./trash-box";
 import { useSearch } from "@/hooks/use-search";
+import { SettingsModal } from "@/components/modals/settings-modal";
+import { useSettings } from "@/hooks/use-settings";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -47,6 +49,7 @@ export const Navigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(isMobile); //* Collapsed by default in mobile devices
 
   const onOpenSearchBox = useSearch((store) => store.onOpen);
+  const onOpenSettings = useSettings((store) => store.onOpen);
   //* or use const search = useSearch() and pass search.onOpen to element
   //* sidebar initial form
   useEffect(() => {
@@ -172,7 +175,9 @@ export const Navigation = () => {
           />
 
           {/* Settings Button  */}
-          <Item onClick={() => {}} icon={Settings} label="Settings" />
+
+          <Item onClick={onOpenSettings} icon={Settings} label="Settings" />
+
           {/* Net Note button */}
           <Item onClick={handleCreateNote} label="New Page" icon={PlusCircle} />
         </div>
