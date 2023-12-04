@@ -12,7 +12,7 @@ import {
   Settings,
   Trash,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import {
   ElementRef,
   MouseEvent as ReactMouseEvent,
@@ -34,9 +34,11 @@ import TrashBox from "./trash-box";
 import { useSearch } from "@/hooks/use-search";
 import { SettingsModal } from "@/components/modals/settings-modal";
 import { useSettings } from "@/hooks/use-settings";
+import Navbar from "./navbar";
 
 export const Navigation = () => {
   const pathname = usePathname();
+  const params = useParams();
   //* Create new document(note)
   const createNote = useMutation(api.documents.create);
   //*Responsive media query
@@ -51,6 +53,7 @@ export const Navigation = () => {
   const onOpenSearchBox = useSearch((store) => store.onOpen);
   const onOpenSettings = useSettings((store) => store.onOpen);
   //* or use const search = useSearch() and pass search.onOpen to element
+
   //* sidebar initial form
   useEffect(() => {
     if (isMobile) collapse();
@@ -215,15 +218,19 @@ export const Navigation = () => {
           isMobile && "left-0 w-full"
         )}
       >
-        <nav className=" bg-transparent px-3 py-2 w-full">
-          {isCollapsed && (
-            <MenuIcon
-              role="button"
-              onClick={resetWidth}
-              className="h-6 w-6 text-muted-foreground"
-            />
-          )}
-        </nav>
+        {!!params.documentId ? (
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth}/>
+        ) : (
+          <nav className=" bg-transparent px-3 py-2 w-full">
+            {isCollapsed && (
+              <MenuIcon
+                role="button"
+                onClick={resetWidth}
+                className="h-6 w-6 text-muted-foreground"
+              />
+            )}
+          </nav>
+        )}
       </div>
     </>
   );
