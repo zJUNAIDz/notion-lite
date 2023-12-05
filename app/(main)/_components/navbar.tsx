@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { useQuery } from "convex/react";
 import { MenuIcon } from "lucide-react";
 import { useParams } from "next/navigation";
+import Title from "./title";
 
 interface Props {
   isCollapsed: boolean;
@@ -33,7 +34,7 @@ const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
         />
       )}
       <div className=" flex items-center justify-between w-full">
-        {document.title}
+        <Title initialData={document}/>
       </div>
     </nav>
   );
