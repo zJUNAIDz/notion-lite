@@ -8,6 +8,7 @@ import Title from "./title";
 import Banner from "./banner";
 import Menu from "./menu";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface Props {
   isCollapsed: boolean;
@@ -19,8 +20,17 @@ const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<"documents">,
   });
-  // const publish = useMutation(api.documents.publish);
-  const onPublish =()=>{}
+  const publish = useMutation(api.documents.update);
+  const onPublish = () => {
+    const id = params.documentId as Id<"documents">;
+    const promise = publish({ id, isPublished: true });
+
+    toast.promise(promise, {
+      loading: "Publishing document...",
+      success: "Document Published!",
+      error: "Failed to publish document",
+    });
+  };
   if (document === undefined) {
     return (
       <nav className=" bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center ">

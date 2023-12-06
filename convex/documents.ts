@@ -213,7 +213,7 @@ export const deleteNote = mutation({
     if (existingDocument.userId !== userId) throw new Error('Unauthorized');
 
     const document = await ctx.db.delete(args.id)
-    
+
     return document;
   }
 });
@@ -263,6 +263,24 @@ export const update = mutation({
 
     const document = await ctx.db.patch(id, { ...rest })
 
-
+    return document;
   }
 })
+
+// export const publish = mutation({
+//   args: { id: v.id('documents') },
+//   handler: async (ctx, args) => {
+//     const identity = await ctx.auth.getUserIdentity();
+//     if (!identity) throw new Error("UnAuthenticated");
+
+//     const userId = identity.subject;
+
+//     const existingDocument = await ctx.db.get(args.id);
+
+//     if (existingDocument?.userId !== userId) throw new Error('Unauthorized');
+
+//     const document = await ctx.db.patch(args.id, { isPublished: true })
+
+//     return document;
+//   }
+// })
