@@ -213,7 +213,7 @@ export const deleteNote = mutation({
     if (existingDocument.userId !== userId) throw new Error('Unauthorized');
 
     const document = await ctx.db.delete(args.id)
-
+    
     return document;
   }
 });

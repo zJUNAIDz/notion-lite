@@ -15,9 +15,14 @@ import {
 interface ConfirmModalProps {
   children: React.ReactNode;
   onConfirm: () => void;
+  btnColor?: string;
 }
 
-export const ConfirmModal = ({ children, onConfirm }: ConfirmModalProps) => {
+export const ConfirmModal = ({
+  children,
+  onConfirm,
+  btnColor,
+}: ConfirmModalProps) => {
   const handleConfirm = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -42,7 +47,9 @@ export const ConfirmModal = ({ children, onConfirm }: ConfirmModalProps) => {
           <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction onClick={handleConfirm}>Confirm</AlertDialogAction>
+          <AlertDialogAction className={btnColor || ""} onClick={handleConfirm}>
+            Confirm
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

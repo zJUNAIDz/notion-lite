@@ -20,6 +20,7 @@ import {
   PlusIcon,
   Trash,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface ItemProps {
@@ -47,8 +48,9 @@ export const Item = ({
   onExpand,
   onClick,
 }: ItemProps) => {
-  // const router = useRouter();
+  const router = useRouter();
   const { user } = useUser();
+
   const documentPaddingLeft = level ? level * 12 + 12 : 12;
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
   //* Mutation object to create note
@@ -64,6 +66,7 @@ export const Item = ({
       success: "Note moved to trash",
       error: "Failed to archieve note",
     });
+    router.push("/documents");
   };
 
   const handleExpand = (
