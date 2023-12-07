@@ -116,13 +116,17 @@ export const Item = ({
           <ChevronIcon className="h-4 w-4 shrink-0 text-muted-foreground/50" />
         </div>
       )}
-      {documentIcon && (
-        <div className="shrink-0 mr-2 text-[18px]">{documentIcon}</div>
+      {documentIcon ? (
+        <div className="flex ">
+          <div className="shrink-0 mr-2 text-[18px]">{documentIcon}</div>
+          <span className="truncate w-full">{label}</span>
+        </div>
+      ) : (
+        <div className="flex gap-1">
+          <Icon className="h-[18px]" />
+          <span className=" truncate">{label}</span>
+        </div>
       )}
-      <div className="flex gap-1">
-        <Icon className="h-[18px]" />
-        <span className=" truncate">{label}</span>
-      </div>
 
       {isSearch && (
         <div className="hidden  md:flex justify-end w-full">
