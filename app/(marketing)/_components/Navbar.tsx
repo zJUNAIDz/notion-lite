@@ -24,9 +24,9 @@ const Navbar = () => {
     >
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between  items-center flex gap-x-2">
-        {isLoading && <Spinner />}
+        {isLoading && <Spinner className="hidden md:block" />}
         {!isAuthenticated && !isLoading && (
-          <>
+          <div className="hidden md:block">
             <SignInButton mode="modal">
               <Button variant="ghost" size="sm">
                 Sign In
@@ -35,7 +35,7 @@ const Navbar = () => {
             <SignUpButton mode="modal">
               <Button size="sm">Get Notion Free</Button>
             </SignUpButton>
-          </>
+          </div>
         )}
         {isAuthenticated && !isLoading && (
           <>
