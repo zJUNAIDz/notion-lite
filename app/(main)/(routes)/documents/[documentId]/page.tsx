@@ -23,8 +23,9 @@ const DocumentIdPage = ({ params: { documentId } }: Props) => {
 
   return (
     <div className="pb-40 ">
+      <div className="h-[30vh]" />
       <div className="md:max-w-3xl lg:max-w-5xl mx-auto">
-        <Toolbar initialData={document} />
+        <Toolbar initialData={document} preview={false} />
       </div>
     </div>
   );
