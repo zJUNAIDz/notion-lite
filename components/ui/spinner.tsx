@@ -16,10 +16,12 @@ const spinnerVariants = cva(" text-muted-foreground animate-spin", {
   },
 });
 //* Syntactic sugar to change the name of VarientProps(i guess)
-interface SpinnerProps extends VariantProps<typeof spinnerVariants> {}
+interface SpinnerProps extends VariantProps<typeof spinnerVariants> {
+  className?: string;
+}
 
-const Spinner = ({ size }: SpinnerProps) => {
-  return <Loader className={cn(spinnerVariants({ size }))} />;
+const Spinner = ({ size, className }: SpinnerProps) => {
+  return <Loader className={cn(className, spinnerVariants({ size }))} />;
 };
 
 export default Spinner;
