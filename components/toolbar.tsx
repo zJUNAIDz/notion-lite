@@ -1,10 +1,11 @@
 "use client";
-import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
-import { useMutation } from "convex/react";
-import { ImageIcon, SmilePlus, X } from "lucide-react";
 import IconPicker from "./icon-picker";
+import { ImageIcon, SmilePlus, X } from "lucide-react";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { Button } from "./ui/button";
+import { ElementRef, useRef, useState } from "react";
 
 interface Props {
   initialData: Doc<"documents">;
@@ -13,6 +14,37 @@ interface Props {
 
 const Toolbar = ({ initialData, preview }: Props) => {
   const changeIcon = useMutation(api.documents.update);
+
+  const inputRef = useRef<ElementRef<"textarea">>();
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(initialData.title);
+
+  const update = useMutation(api.documents.update);
+
+  const enableInput = () => {
+    //* Just in case a heckar manages to trigger this function 😅
+    if (preview) return;
+    setIsEditing(true);
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+      setTitle(initialData.title);
+    }, 0);
+  };
+
+  const disableInput = () => setIsEditing(false);
+
+  const onInput = (value: string) => {
+    setTitle(value);
+    update({ id: initialData._id, title: value || "Untitled" });
+  };
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      disableInput();
+    }
+  };
 
   return (
     <div className=" pl-[40px]">
