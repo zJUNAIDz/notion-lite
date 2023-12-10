@@ -33,8 +33,8 @@ const Banner = ({ documentId: id }: Props) => {
   };
 
   return (
-    <div className="w-full bg-red-500 flex items-center justify-center gap-x-4 py-3 text-white">
-      <p>This page is in the Trash</p>
+    <div className="w-full bg-red-500 flex flex-col md:flex-row items-center justify-center gap-x-4 gap-y-2 py-1 text-white">
+      <p className="hidden md:block ">This page is in the Trash</p>
       <div className="flex gap-x-2">
         <Button
           size="sm"
