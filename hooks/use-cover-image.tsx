@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-
 type CoverImageStore = {
   isOpen: boolean;
   onOpen: () => void;
@@ -12,4 +11,3 @@ export const useCoverImage = create<CoverImageStore>((set) => ({
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));
-
