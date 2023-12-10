@@ -48,7 +48,7 @@ const Title = ({ initialData }: Props) => {
   };
 
   return (
-    <div>
+    <div className="flex font-extralight">
       {!!initialData.icon && <p>{initialData.icon}</p>}
       {isEditing ? (
         <Input
@@ -64,11 +64,11 @@ const Title = ({ initialData }: Props) => {
         <Button
           variant="ghost"
           size="sm"
-          className="font-normal h-auto p-1 min-w-[100px] "
+          className="font-bold h-auto p-1 min-w-[100px] "
           onClick={enableInput}
         >
           <span className="truncate w-full text-left">
-            {initialData?.title}
+            {initialData?.title.toUpperCase()}
           </span>
         </Button>
       )}
