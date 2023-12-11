@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
 import { useEdgeStore } from "@/lib/edgestore";
+import { Skeleton } from "./ui/skeleton";
 interface Props {
   url?: string;
   preview?: boolean;
@@ -43,7 +44,7 @@ export const Cover = ({ url, preview }: Props) => {
       className={cn(
         "relative w-full  h-[35vh] group",
         !url && "h-[12vh]",
-        url && "bg-muted min-h-fit"
+        url && "min-h-fit"
       )}
     >
       {!!url && (
@@ -73,4 +74,8 @@ export const Cover = ({ url, preview }: Props) => {
       )}
     </div>
   );
+};
+
+Cover.Skeleton = function CoverSkeleton() {
+  return <Skeleton className="w-full h-[12vh]" />;
 };
