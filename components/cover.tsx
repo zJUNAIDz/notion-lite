@@ -10,7 +10,7 @@ import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
-
+import { useEdgeStore } from "@/lib/edgestore";
 interface Props {
   url?: string;
   preview?: boolean;
@@ -19,16 +19,25 @@ interface Props {
 export const Cover = ({ url, preview }: Props) => {
   const { documentId } = useParams();
   const id = documentId as Id<"documents">;
+
+  const { edgestore } = useEdgeStore();
   const coverImage = useCoverImage();
   const removeCoverImage = useMutation(api.documents.removeCoverImage);
+
   const onRemoveCoverImage = async () => {
+    //* delete it from edgestore
+    if (url) await edgestore.publicFiles.delete({ url });
+
+    //* delete it from convex database
     const promise = removeCoverImage({ id });
+
     toast.promise(promise, {
       loading: "Removing cover image...",
       success: "Cover image removed!",
       error: "Failed to remove cover image",
     });
   };
+
   return (
     <div
       className={cn(
@@ -41,12 +50,12 @@ export const Cover = ({ url, preview }: Props) => {
         <Image src={url} alt="cover-image" fill className="object-contain" />
       )}
       {url && !preview && (
-        <div className="md:opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2">
+        <div className="z-[99999] md:opacity-0 group-hover:opacity-100 absolute  bottom-5  right-5 flex items-center gap-x-2">
           <Button
             className=" text-xs text-muted-foreground"
             variant="outline"
             size="sm"
-            onClick={coverImage.onOpen}
+            onClick={() => coverImage.onReplace(url)}
           >
             <ImageIcon className="h-4 w-4 mr-2" />
             Change Cover
