@@ -21,7 +21,7 @@ export const Menu = ({ documentId }: Props) => {
   const router = useRouter();
   const { user } = useUser();
   const document = useQuery(api.documents.getById, { documentId });
-  const remove = useMutation(api.documents.deleteNote);
+  const remove = useMutation(api.documents.remove);
   const trash = useMutation(api.documents.archieve);
   const onClick = () => {
     if (document?.isArchieved) {

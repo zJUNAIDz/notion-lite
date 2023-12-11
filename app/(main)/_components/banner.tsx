@@ -11,7 +11,7 @@ interface Props {
 const Banner = ({ documentId: id }: Props) => {
   const router = useRouter();
   const restore = useMutation(api.documents.unArchieve);
-  const remove = useMutation(api.documents.deleteNote);
+  const remove = useMutation(api.documents.remove);
   const onRestore = () => {
     const promise = restore({ id });
 

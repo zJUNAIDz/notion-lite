@@ -15,7 +15,7 @@ const TrashBox = () => {
   const params = useParams();
   const documents = useQuery(api.documents.getArchieved);
   const restoreNote = useMutation(api.documents.unArchieve);
-  const deleteNote = useMutation(api.documents.deleteNote);
+  const deleteNote = useMutation(api.documents.remove);
   const [search, setSearch] = useState("");
 
   const filteredDocument = documents?.filter((document) =>
