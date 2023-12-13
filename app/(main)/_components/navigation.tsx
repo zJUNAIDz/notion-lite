@@ -12,7 +12,7 @@ import {
   Settings,
   Trash,
 } from "lucide-react";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import {
   ElementRef,
   MouseEvent as ReactMouseEvent,
@@ -35,10 +35,12 @@ import { useSearch } from "@/hooks/use-search";
 import { SettingsModal } from "@/components/modals/settings-modal";
 import { useSettings } from "@/hooks/use-settings";
 import Navbar from "./navbar";
+import { Doc, Id } from "@/convex/_generated/dataModel";
 
 export const Navigation = () => {
   const pathname = usePathname();
   const params = useParams();
+  const router = useRouter();
   //* Create new document(note)
   const createNote = useMutation(api.documents.create);
   //*Responsive media query
@@ -104,8 +106,10 @@ export const Navigation = () => {
   //* creates a new note in DB
   const handleCreateNote = () => {
     //* returns a promise
-    const promise = createNote({ title: "Untitled" });
-    toast.promise(promise, {
+    const promise = createNote({ title: "Untitled" }).then((documentId) =>
+      router.push(`/documents/${documentId}`)
+    );
+    const result = toast.promise(promise, {
       loading: "Creating new note...",
       success: "New note created.",
       error: "Failed to create note.",
@@ -219,7 +223,7 @@ export const Navigation = () => {
         )}
       >
         {!!params.documentId ? (
-          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth}/>
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
         ) : (
           <nav className=" bg-transparent px-3 py-2 w-full">
             {isCollapsed && (
