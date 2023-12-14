@@ -30,19 +30,19 @@ const DocumentsPage = () => {
     });
   };
   return (
-    <div className="h-full flex flex-col items-center justify-center space-y-4">
+    <div className="h-full flex flex-col items-center justify-center space-y-2 md:space-y-4">
       <Image
         src="/empty.png"
         alt="Empty document"
-        height="250"
-        width="250"
+        height="200"
+        width="200"
         className="block dark:hidden "
       />
       <Image
         src="/empty-dark.png"
         alt="Empty document"
-        height="250"
-        width="250"
+        height="200"
+        width="200"
         className="hidden dark:block"
       />
       <h2 className=" text-xl font-medium text-muted-foreground">

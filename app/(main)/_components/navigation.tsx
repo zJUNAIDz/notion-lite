@@ -155,7 +155,7 @@ export const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          " group/sidebar h-full bg-secondary overflow-y-auto relative flex flex-col w-60 z-[99999]",
+          " group/sidebar h-full bg-secondary overflow-y-auto relative flex flex-col w-60 z-[99999] overflow-x-hidden",
           isresetting && " transition-all ease-in-out duration-300",
           isMobile && "w-0"
         )}

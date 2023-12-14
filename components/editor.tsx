@@ -1,23 +1,16 @@
 "use client";
-import { BlockNoteEditor, InlineContent, PartialBlock } from "@blocknote/core";
-import { BlockNoteView, useBlockNote } from "@blocknote/react";
-import "@blocknote/core/style.css";
-import { useTheme } from "next-themes";
 import { useEdgeStore } from "@/lib/edgestore";
+import { BlockNoteEditor } from "@blocknote/core";
+import "@blocknote/core/style.css";
+import { BlockNoteView, useBlockNote } from "@blocknote/react";
+import { useTheme } from "next-themes";
 interface Props {
   onChange: (value: string) => void;
   initialContent: string | undefined;
   editable?: boolean;
 }
-// type PartialBlock = {
-//   id?: string;
-//   type?: string;
-//   props?: Partial<Record<string, string>>;
-//   content?: string | InlineContent[];
-//   children?: BlockSpec[];
-// };
 
-export const Editor = ({ onChange, initialContent, editable }: Props) => {
+const Editor = ({ onChange, initialContent, editable }: Props) => {
   const { resolvedTheme } = useTheme();
   const { edgestore } = useEdgeStore();
 
@@ -27,7 +20,7 @@ export const Editor = ({ onChange, initialContent, editable }: Props) => {
     });
     return response.url;
   };
-  
+
   const editor: BlockNoteEditor = useBlockNote({
     editable,
     initialContent: initialContent ? JSON.parse(initialContent) : undefined,
@@ -45,3 +38,4 @@ export const Editor = ({ onChange, initialContent, editable }: Props) => {
     />
   );
 };
+export default Editor;
