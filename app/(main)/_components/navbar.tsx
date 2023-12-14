@@ -9,6 +9,8 @@ import Banner from "./banner";
 import { Menu } from "./menu";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useMediaQuery } from "usehooks-ts";
+import Publish from "./publish";
 
 interface Props {
   isCollapsed: boolean;
@@ -17,20 +19,11 @@ interface Props {
 
 const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
   const params = useParams();
+  const isMobile = useMediaQuery("(max-width:768px)");
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<"documents">,
   });
-  const publish = useMutation(api.documents.update);
-  const onPublish = () => {
-    const id = params.documentId as Id<"documents">;
-    const promise = publish({ id, isPublished: true });
 
-    toast.promise(promise, {
-      loading: "Publishing document...",
-      success: "Document Published!",
-      error: "Failed to publish document",
-    });
-  };
   if (document === undefined) {
     return (
       <nav className=" bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between">
@@ -46,32 +39,29 @@ const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
 
   return (
     <>
-      <nav className=" bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between gap-x-4">
-        <div className="flex gap-x-2">
-          {isCollapsed && (
-            <MenuIcon
-              role="button"
-              onClick={onResetWidth}
-              className="h-6 w-6 text-muted-foreground"
-            />
-          )}
-          <div className=" flex items-center justify-between w-full">
-            <Title initialData={document} />
-          </div>
-        </div>
-        <div className="flex items-center gap-x-2">
-          <Button
-            className=" bg-transparent"
-            onClick={onPublish}
-            variant="outline"
-            size="sm"
-          >
-            Publish
-          </Button>
-          <Menu documentId={document._id} />
-        </div>
-      </nav>
-      {document.isArchieved && <Banner documentId={document._id} />}
+      {((isMobile && isCollapsed) || !isMobile) && (
+        <>
+          <nav className=" bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between gap-x-4">
+            <div className="flex gap-x-2">
+              {isCollapsed && (
+                <MenuIcon
+                  role="button"
+                  onClick={onResetWidth}
+                  className="h-6 w-6 text-muted-foreground"
+                />
+              )}
+              <div className=" flex items-center justify-between w-full">
+                <Title initialData={document} />
+              </div>
+            </div>
+            <div className="flex items-center gap-x-2">
+              <Publish initialData={document} />
+              <Menu documentId={document._id} />
+            </div>
+          </nav>
+          {document.isArchieved && <Banner documentId={document._id} />}
+        </>
+      )}
     </>
   );
 };
