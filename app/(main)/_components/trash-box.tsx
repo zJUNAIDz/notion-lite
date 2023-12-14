@@ -1,9 +1,11 @@
 "use client";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Spinner from "@/components/ui/spinner";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { useUser } from "@clerk/nextjs";
 import { useMutation, useQuery } from "convex/react";
 import { Search, Trash, Undo } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -13,9 +15,11 @@ import { toast } from "sonner";
 const TrashBox = () => {
   const router = useRouter();
   const params = useParams();
+  const { user } = useUser();
   const documents = useQuery(api.documents.getArchieved);
   const restoreNote = useMutation(api.documents.unArchieve);
   const deleteNote = useMutation(api.documents.remove);
+  const deleteAllTrash = useMutation(api.documents.removeAll);
   const [search, setSearch] = useState("");
 
   const filteredDocument = documents?.filter((document) =>
@@ -51,6 +55,15 @@ const TrashBox = () => {
     if (params.documentId === documentId) {
       router.push("/documents");
     }
+  };
+
+  const onDeleteAllTrash = () => {
+    const promise = deleteAllTrash();
+    toast.promise(promise, {
+      loading: "Cleaning up trash",
+      success: "Trash is now empty!",
+      error: "Failed to clean trash",
+    });
   };
 
   if (documents === undefined)
@@ -103,6 +116,15 @@ const TrashBox = () => {
             </div>
           </div>
         ))}
+        {!!filteredDocument?.length && (
+          <Button
+            onClick={onDeleteAllTrash}
+            className="w-full bg-[#ff4a4a] hover:bg-[#c44747] text-white hover:text-white"
+            variant="outline"
+          >
+            Delete all
+          </Button>
+        )}
       </div>
     </div>
   );

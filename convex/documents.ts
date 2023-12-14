@@ -135,14 +135,14 @@ export const getArchieved = query({
 
     const userId = identity.subject;
 
-    const ducuments = ctx.db
+    const documents = ctx.db
       .query('documents')
       .withIndex('by_user', q => q
         .eq('userId', userId))
       .filter(q => q.eq(q.field('isArchieved'), true))
       .order('desc')
       .collect()
-    return ducuments;
+    return documents;
   }
 });
 
@@ -302,5 +302,29 @@ export const removeCoverImage = mutation({
     });
 
     return document;
+  },
+})
+
+
+
+export const removeAll = mutation({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) throw new Error('Unauthenticated');
+
+    const userId = identity.subject;
+
+    const documents = await ctx.db
+      .query('documents')
+      .withIndex('by_user', q =>
+        q.eq('userId', userId))
+      .filter(q => q.eq(q.field('isArchieved'), true))
+      .collect();
+
+    documents.forEach(async (document) => {
+      await ctx.db.delete(document._id);
+    })
+
   },
 })
