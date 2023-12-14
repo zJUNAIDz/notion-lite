@@ -1,24 +1,35 @@
 "use client";
 import { Cover } from "@/components/cover";
-import { Editor } from "@/components/editor";
+// import Editor from "@/components/editor";
 import Toolbar from "@/components/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import Spinner from "@/components/ui/spinner";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 interface Props {
   params: {
     documentId: Id<"documents">;
   };
 }
 const DocumentIdPage = ({ params: { documentId } }: Props) => {
+  const router = useRouter();
+  //* Memoizing editor component
+  const Editor = useMemo(
+    () => dynamic(() => import("@/components/editor"), { ssr: false }),
+    []
+  );
+
   const document = useQuery(api.documents.getById, { documentId });
   const update = useMutation(api.documents.update);
 
   const onChange = async (content: string) => {
     await update({ id: documentId, content });
   };
+
   if (document === undefined)
     return (
       <div>
