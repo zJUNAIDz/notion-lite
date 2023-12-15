@@ -16,7 +16,6 @@ interface Props {
   };
 }
 const DocumentIdPage = ({ params: { documentId } }: Props) => {
-  const router = useRouter();
   //* Memoizing editor component
   const Editor = useMemo(
     () => dynamic(() => import("@/components/editor"), { ssr: false }),
