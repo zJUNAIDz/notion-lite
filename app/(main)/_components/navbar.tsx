@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts";
 import Publish from "./publish";
+import Editable from "./editable";
 
 interface Props {
   isCollapsed: boolean;
@@ -55,6 +56,7 @@ const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
               </div>
             </div>
             <div className="flex items-center gap-x-2">
+              <Editable initialData={document} />
               <Publish initialData={document} />
               <Menu documentId={document._id} />
             </div>
