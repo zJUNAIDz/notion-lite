@@ -328,3 +328,18 @@ export const removeAll = mutation({
 
   },
 })
+
+
+export const getPublicDocuments = query({
+  handler(ctx) {
+    const identity = ctx.auth.getUserIdentity()
+    if (!identity) throw new Error("Unauthenticated");
+
+    const documents = ctx.db.query('documents')
+      .filter(q => q.eq(q.field('isPublished'), true))
+      .order('desc')
+      .collect();
+    return documents;
+
+  },
+})

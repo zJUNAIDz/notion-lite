@@ -13,12 +13,14 @@ interface DocumentListProps {
   parentDocumentId?: Id<"documents">;
   level?: number;
   data?: Doc<"documents">;
+  shared?: boolean;
 }
 
 const DocumentList = ({
   parentDocumentId,
   level = 0,
   data,
+  shared,
 }: DocumentListProps) => {
   const params = useParams();
   const router = useRouter();
@@ -30,11 +32,12 @@ const DocumentList = ({
       [documentId]: !prevExpanded[documentId],
     }));
   };
-
-  const documents = useQuery(api.documents.getSidebar, {
+  const publicDocument = useQuery(api.documents.getPublicDocuments);
+  const privateDocuments = useQuery(api.documents.getSidebar, {
     parentDocument: parentDocumentId,
   });
 
+  const documents = shared ? publicDocument : privateDocuments;
   const onRedirect = (documentId: string) => {
     router.push(`/documents/${documentId}`);
   };
@@ -60,11 +63,11 @@ const DocumentList = ({
   return (
     <>
       <p
-        style={{ paddingLeft: level ? `${level * 12 + 25}px` : undefined }}
+        style={{ paddingLeft: level ? `${level * 12 + 25}px` : 12 }}
         className={cn(
-          "hidden text-sm font-medium text-muted-foreground/80",
-          expanded && "last:block",
-          level && "hidden"
+          "text-sm font-medium text-muted-foreground/80",
+          level && "hidden",
+          expanded && "last:block"
         )}
       >
         No page inside

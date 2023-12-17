@@ -109,7 +109,7 @@ export const Navigation = () => {
     const promise = createNote({ title: "Untitled" }).then((documentId) =>
       router.push(`/documents/${documentId}`)
     );
-    const result = toast.promise(promise, {
+    toast.promise(promise, {
       loading: "Creating new note...",
       success: "New note created.",
       error: "Failed to create note.",
@@ -190,7 +190,22 @@ export const Navigation = () => {
         </div>
         <div className=" mt-4">
           {/* List of document  */}
-          <DocumentList />
+          <div>
+            {/* public documents list  */}
+            <div>
+              <h2 className="w-full flex justify-center my-1 bg-background/80 font-medium">
+                PUBLIC
+              </h2>
+              <DocumentList shared />
+            </div>
+            {/* Private documents list  */}
+            <div>
+              <h2 className="w-full flex justify-center my-1 bg-background/80 font-medium">
+                PRIVATE
+              </h2>
+              <DocumentList />
+            </div>
+          </div>
           {/* another add note button  */}
           <Item onClick={handleCreateNote} icon={Plus} label="Add a page" />
           {/* Trash Button */}
