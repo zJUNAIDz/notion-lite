@@ -22,7 +22,7 @@ const ErrorPage = () => {
       />
       <h2 className=" font-mono font-bold">Something went wrong!</h2>
       <Button variant="outline" asChild>
-        <Link href="/">Go Back</Link>
+        <Link href="/documents">Go Back</Link>
       </Button>
     </div>
   );
