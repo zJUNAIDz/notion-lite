@@ -23,8 +23,8 @@ const Navbar = () => {
       )}
     >
       <Logo />
-      <div className="md:ml-auto md:justify-end justify-between  items-center flex gap-x-2">
-        {isLoading && <Spinner className="hidden md:block" />}
+      <div className="md:ml-auto md:justify-end justify-between items-center flex gap-x-2">
+        {isLoading && <Spinner size='sm' />}
         {!isAuthenticated && !isLoading && (
           <div className="hidden md:block">
             <SignInButton mode="modal">
@@ -46,7 +46,6 @@ const Navbar = () => {
         )}
         <div className=" flex space-x-3 items-center">
           {isAuthenticated && !isLoading && <UserButton />}
-          <ModeToggle />
         </div>
       </div>
     </div>

@@ -15,13 +15,6 @@ const Logo = () => {
         width="35"
         className=" dark:hidden"
       />
-      <Image
-        src="/notion-icon-dark.svg"
-        alt="notion-icon"
-        height="35"
-        width="35"
-        className="hidden filter invert-1 dark:block"
-      />
       <p className={cn("font-semibold", fonts.className)}>Notion</p>
     </div>
   );

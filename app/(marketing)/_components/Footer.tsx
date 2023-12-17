@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Logo from "./Logo";
+import { GithubIcon } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -7,15 +9,15 @@ const Footer = () => {
       <div className="hidden md:block">
         <Logo />
       </div>
-
-      <div className="md:ml-auto justify-between md:justify-end flex items-center w-full gap-x-2 text-muted-foreground">
-        <Button variant="ghost" size="sm">
-          Privacy Policy
-        </Button>
-        <Button variant="ghost" size="sm">
-          Terms &amp; Conditions
-        </Button>
-      </div>
+      <Button variant="ghost" size="sm">
+        <Link
+          className="flex items-center gap-x-2 text-muted-foreground"
+          href="https://github.com/zJUNAIDz/notion-clone"
+          target="blank"
+        >
+          <GithubIcon className="h-4 w-4" /> Source code
+        </Link>
+      </Button>
     </div>
   );
 };
