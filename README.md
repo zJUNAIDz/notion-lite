@@ -1,5 +1,6 @@
 # Notion Clone Built on [Next.js][nextjs]
 
-[nextjs]: https://nextjs.org
+## followed [CodeWithAntonio][CodeWithAntonio]'s tutorial with lots of modifications and more mobile-friendly  
 
-## I'm currently working on this project so it mostly likely won't work as expected \n
+[nextjs]: https://nextjs.org
+[CodeWithAntonio]: https://github.com/AntonioErdeljac  
