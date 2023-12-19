@@ -65,17 +65,16 @@ const DocumentList = ({
       <p
         style={{ paddingLeft: level ? `${level * 12 + 25}px` : 12 }}
         className={cn(
-          "text-sm font-medium text-muted-foreground/80",
-          level && "hidden",
-          expanded && "last:block"
+          "hidden text-sm font-medium text-muted-foreground/80",
+          expanded && "last:block",
+          level === 0 && "hidden"
         )}
       >
         No page inside
       </p>
       {documents.map((document) => (
-        <>
+        <div key={document._id}>
           <Item
-            key={document._id}
             id={document._id}
             onClick={() => onRedirect(document._id)}
             label={document.title}
@@ -89,7 +88,7 @@ const DocumentList = ({
           {expanded[document._id] && (
             <DocumentList parentDocumentId={document._id} level={level + 1} />
           )}
-        </>
+        </div>
       ))}
     </>
   );
