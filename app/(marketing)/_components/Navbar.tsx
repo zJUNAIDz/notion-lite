@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <div
       className={cn(
-        "z-[3] bg-background dark:bg-[#1F1F1F] fixed top-0 flex items-center  w-full p-6 justify-between",
+        "z-[3] bg-background dark:bg-[#1F1F1F] top-0 flex items-center w-full p-6 justify-between",
         isScrolled && " border-b shadow-sm "
       )}
     >
@@ -44,7 +44,7 @@ const Navbar = () => {
             </Button>
           </>
         )}
-        <div className=" flex space-x-3 items-center">
+        <div>
           {isAuthenticated && !isLoading && <UserButton />}
         </div>
       </div>

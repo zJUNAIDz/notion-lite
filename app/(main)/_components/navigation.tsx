@@ -1,6 +1,13 @@
 "use client";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { api } from "@/convex/_generated/api";
+import { useSearch } from "@/hooks/use-search";
+import { useSettings } from "@/hooks/use-settings";
 import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import {
@@ -22,20 +29,11 @@ import {
 } from "react";
 import { toast } from "sonner";
 import { useMediaQuery } from "usehooks-ts"; //* can be done using tailwind but would be complicated, as it is resizable component
-import { Item } from "./item";
-import { UserItem } from "./user-item";
 import DocumentList from "./document-list";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import TrashBox from "./trash-box";
-import { useSearch } from "@/hooks/use-search";
-import { SettingsModal } from "@/components/modals/settings-modal";
-import { useSettings } from "@/hooks/use-settings";
+import { Item } from "./item";
 import Navbar from "./navbar";
-import { Doc, Id } from "@/convex/_generated/dataModel";
+import TrashBox from "./trash-box";
+import { UserItem } from "./user-item";
 
 export const Navigation = () => {
   const pathname = usePathname();
@@ -190,18 +188,18 @@ export const Navigation = () => {
         </div>
         <div className=" mt-4">
           {/* List of document  */}
-          <div>
+          <div className="flex flex-col gap-y-3">
             {/* public documents list  */}
-            <div>
-              <h2 className="w-full flex justify-center my-1 bg-background/80 font-medium">
-                PUBLIC
+            <div className="">
+              <h2 className=" flex items-center justify-center my-1 bg-background/80 font-medium underline">
+                PUBLIC DOCUMENTS
               </h2>
               <DocumentList shared />
             </div>
             {/* Private documents list  */}
             <div>
-              <h2 className="w-full flex justify-center my-1 bg-background/80 font-medium">
-                PRIVATE
+              <h2 className="w-full flex justify-center my-1 bg-background/80 font-medium underline">
+                YOUR DOCUMENTS
               </h2>
               <DocumentList />
             </div>

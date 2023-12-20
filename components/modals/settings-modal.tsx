@@ -3,12 +3,7 @@ import { ModeToggle } from "../mode-toggle";
 import {
   Dialog,
   DialogContent,
-  DialogClose,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogHeader
 } from "../ui/dialog";
 import { Label } from "../ui/label";
 

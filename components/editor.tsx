@@ -25,7 +25,6 @@ const Editor = ({ onChange, initialContent, editable }: Props) => {
     editable,
     initialContent: initialContent ? JSON.parse(initialContent) : undefined,
     onEditorContentChange: (editor) => {
-      console.log(JSON.stringify(editor.topLevelBlocks));
       onChange(JSON.stringify(editor.topLevelBlocks, null, 2));
     },
     uploadFile: handleUpload,
