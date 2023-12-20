@@ -1,17 +1,17 @@
+import { ModeToggle } from "@/components/mode-toggle";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { cn } from "@/lib/utils";
-import { useMutation, useQuery } from "convex/react";
+import { useOrigin } from "@/hooks/use-origin";
+import { useQuery } from "convex/react";
 import { MenuIcon } from "lucide-react";
 import { useParams } from "next/navigation";
-import Title from "./title";
-import Banner from "./banner";
-import { Menu } from "./menu";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import Publish from "./publish";
+import Banner from "./banner";
 import Editable from "./editable";
+import { Menu } from "./menu";
+import Publish from "./publish";
+import Title from "./title";
 
 interface Props {
   isCollapsed: boolean;
@@ -19,12 +19,20 @@ interface Props {
 }
 
 const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
-  const params = useParams();
   const isMobile = useMediaQuery("(max-width:768px)");
+  const params = useParams();
+
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<"documents">,
   });
-
+  const origin = useOrigin();
+  const url = `${origin}/preview/${params.documentId}`;
+  const [copied, setCopied] = useState(false);
+  const onCopy = () => {
+    window.navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1000);
+  };
   if (document === undefined) {
     return (
       <nav className=" bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between">
@@ -51,13 +59,19 @@ const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
                   className="h-6 w-6 text-muted-foreground"
                 />
               )}
+
               <div className=" flex items-center justify-between w-full">
                 <Title initialData={document} />
               </div>
             </div>
-            <div className="flex items-center gap-x-2">
-              <Editable initialData={document} />
-              <Publish initialData={document} />
+            <div className="">
+              <div className="hidden md:flex items-center gap-x-2 ">
+                <Editable initialData={document} />
+
+                <Publish initialData={document} />
+
+                <ModeToggle />
+              </div>
               <Menu documentId={document._id} />
             </div>
           </nav>
