@@ -3,12 +3,11 @@ import { Cover } from "@/components/cover";
 // import Editor from "@/components/editor";
 import Toolbar from "@/components/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
-import Spinner from "@/components/ui/spinner";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { useUser } from "@clerk/nextjs";
 import { useMutation, useQuery } from "convex/react";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 interface Props {
   params: {
@@ -16,6 +15,7 @@ interface Props {
   };
 }
 const DocumentIdPage = ({ params: { documentId } }: Props) => {
+  const userId = useUser().user?.id;
   //* Memoizing editor component
   const Editor = useMemo(
     () => dynamic(() => import("@/components/editor"), { ssr: false }),
@@ -24,6 +24,8 @@ const DocumentIdPage = ({ params: { documentId } }: Props) => {
 
   const document = useQuery(api.documents.getById, { documentId });
   const update = useMutation(api.documents.update);
+
+  const isEditable = document?.userId === userId || document?.isEditable;
 
   const onChange = async (content: string) => {
     await update({ id: documentId, content });
@@ -51,7 +53,11 @@ const DocumentIdPage = ({ params: { documentId } }: Props) => {
       <Cover url={document.coverImage} />
       <div className="md:max-w-3xl lg:max-w-5xl mx-auto">
         <Toolbar initialData={document} preview={false} />
-        <Editor onChange={onChange} initialContent={document.content} />
+        <Editor
+          onChange={onChange}
+          initialContent={document.content}
+          editable={isEditable}
+        />
       </div>
     </div>
   );

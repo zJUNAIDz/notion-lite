@@ -45,7 +45,7 @@ export const Menu = ({ documentId }: Props) => {
   };
 
   return (
-    <div>
+    <div className="md:hidden">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Button size="sm" variant="ghost">
