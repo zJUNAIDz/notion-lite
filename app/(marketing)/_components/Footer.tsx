@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="flex items-center justify-between w-full p-6 bg-background dark:bg-[#1F1F1F] z-2">
+    <div className="flex items-center justify-end md:justify-between  w-full p-6 bg-background dark:bg-[#1F1F1F] z-2">
       <div className="hidden md:block">
         <Logo />
       </div>
