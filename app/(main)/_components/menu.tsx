@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Editable from "./editable";
 import Publish from "./publish";
+import { ModeToggleSwitch } from "@/components/ui/mode-toggle-switch";
 interface Props {
   initialData: Doc<"documents">;
 }
@@ -65,7 +66,8 @@ export const Menu = ({ initialData }: Props) => {
             <TrashButton documentId={documentId} asIcon />
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <ModeToggle />
+            {/* <ModeToggle /> */}
+            <ModeToggleSwitch />
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Editable initialData={initialData} />
