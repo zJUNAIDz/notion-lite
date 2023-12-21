@@ -1,16 +1,17 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { Button } from "./ui/button";
-import { ImageIcon, X } from "lucide-react";
-import { useCoverImage } from "@/hooks/use-cover-image";
-import { useMutation } from "convex/react";
+import { CoverMenu } from "@/app/(main)/_components/cover-menu";
 import { api } from "@/convex/_generated/api";
-import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
-import { toast } from "sonner";
+import { useCoverImage } from "@/hooks/use-cover-image";
 import { useEdgeStore } from "@/lib/edgestore";
+import { cn } from "@/lib/utils";
+import { useMutation } from "convex/react";
+import { ImageIcon, X } from "lucide-react";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { toast } from "sonner";
+import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 interface Props {
   url?: string;
@@ -51,7 +52,7 @@ export const Cover = ({ url, preview }: Props) => {
         <Image src={url} alt="cover-image" fill className="object-contain" />
       )}
       {url && !preview && (
-        <div className="z-[99999] md:opacity-0 group-hover:opacity-100 absolute  bottom-5  right-5 flex items-center gap-x-2">
+        <div className="hidden z-[99999] md:opacity-0 group-hover:opacity-100 absolute  bottom-5  right-5 md:flex items-center gap-x-2">
           <Button
             className=" text-xs text-muted-foreground"
             variant="outline"
@@ -72,6 +73,8 @@ export const Cover = ({ url, preview }: Props) => {
           </Button>
         </div>
       )}
+
+      {url && !preview && <CoverMenu url={url} documentId={documentId} />}
     </div>
   );
 };
