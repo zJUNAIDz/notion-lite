@@ -1,31 +1,33 @@
+import { ModeToggle } from "@/components/mode-toggle";
+import { TrashButton } from "@/components/trash-button";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import { useUser } from "@clerk/nextjs";
+import { Doc, Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
-import { MoreHorizontal, Trash } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Editable from "./editable";
+import Publish from "./publish";
 interface Props {
-  documentId: Id<"documents">;
+  initialData: Doc<"documents">;
 }
-export const Menu = ({ documentId }: Props) => {
+export const Menu = ({ initialData }: Props) => {
   const router = useRouter();
-  const { user } = useUser();
+  const documentId = initialData._id as Id<"documents">;
   const document = useQuery(api.documents.getById, { documentId });
   const remove = useMutation(api.documents.remove);
   const trash = useMutation(api.documents.archieve);
   const onClick = () => {
     if (document?.isArchieved) {
-      const promise = remove({ id: documentId });
+      const promise = remove({ id: initialData._id });
 
       toast.promise(promise, {
         loading: "Deleting document permanently...",
@@ -35,7 +37,7 @@ export const Menu = ({ documentId }: Props) => {
       router.push("/documents");
       return;
     }
-    const promise = trash({ id: documentId });
+    const promise = trash({ id: initialData._id });
 
     toast.promise(promise, {
       loading: "Moving document to trash...",
@@ -53,19 +55,24 @@ export const Menu = ({ documentId }: Props) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-60"
+          className=" flex flex-col items-center justify-center min-w-4 shadow-none border-none"
           align="end"
-          alignOffset={8}
+          // alignOffset={8}
           forceMount
         >
-          <DropdownMenuItem className="flex gap-x-2" onClick={onClick}>
-            <Trash className="h-4 w-4" />
-            {document?.isArchieved ? "Delete" : "Trash"}
+          <DropdownMenuItem className="border rounded-sm" onClick={onClick}>
+            {/* <Trash /> */}
+            <TrashButton documentId={documentId} asIcon />
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <div className=" text-xs text-muted-foreground p-2 text-left">
-            Last edited by: {user?.fullName}
-          </div>
+          <DropdownMenuItem>
+            <ModeToggle />
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Editable initialData={initialData} />
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Publish initialData={initialData} />
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

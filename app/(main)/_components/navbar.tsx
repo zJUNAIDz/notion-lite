@@ -72,7 +72,7 @@ const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
 
                 <ModeToggle />
               </div>
-              <Menu documentId={document._id} />
+              <Menu initialData={document} />
             </div>
           </nav>
           {document.isArchieved && <Banner documentId={document._id} />}
