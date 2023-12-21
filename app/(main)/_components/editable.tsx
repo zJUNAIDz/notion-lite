@@ -31,7 +31,7 @@ const Editable = ({ initialData }: Props) => {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <div onClick={toggleIsEditable}>
+        <div className="border rounded-sm md:border-none" onClick={toggleIsEditable}>
           {initialData.isEditable ? (
             <Button size="icon" variant="ghost" className="group">
               <FileEdit className="md:group-hover:hidden" />

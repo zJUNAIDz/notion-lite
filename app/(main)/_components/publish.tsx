@@ -58,7 +58,7 @@ const Publish = ({ initialData }: Props) => {
   return (
     <HoverCard>
       <HoverCardTrigger onClick={togglePublish} asChild>
-        <Button disabled={isSubmitting} variant="ghost" size="icon">
+        <Button className="border rounded-sm" disabled={isSubmitting} variant="ghost" size="icon">
           <Globe
             className={cn(
               "h-6 w-6",
