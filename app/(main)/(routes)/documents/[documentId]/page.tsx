@@ -52,7 +52,7 @@ const DocumentIdPage = ({ params: { documentId } }: Props) => {
     <div className="pb-40 ">
       <Cover url={document.coverImage} />
       <div className="md:max-w-3xl lg:max-w-5xl mx-auto">
-        <Toolbar initialData={document} preview={false} />
+        <Toolbar initialData={document} preview={!isEditable} />
         <Editor
           onChange={onChange}
           initialContent={document.content}
