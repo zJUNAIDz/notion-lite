@@ -11,10 +11,13 @@ interface Props {
   initialData: Doc<"documents">;
 }
 const Editable = ({ initialData }: Props) => {
-  const update = useMutation(api.documents.update);
+  const isEditableSetter = useMutation(api.documents.setIsEditable);
   const [isEditable, setIsEditable] = useState(initialData.isEditable);
   const toggleIsEditable = () => {
-    const promise = update({ id: initialData._id, isEditable: !isEditable });
+    const promise = isEditableSetter({
+      id: initialData._id,
+      isEditable: !isEditable,
+    });
     toast.promise(promise, {
       loading: isEditable
         ? "resetting to not editable"
@@ -22,16 +25,20 @@ const Editable = ({ initialData }: Props) => {
       success: isEditable
         ? "Document is not editable to public now"
         : "Document is now editable to public!",
-      error: isEditable
-        ? "Failed to reset to not editable"
-        : "Failed to set to editable",
+      error: "Failed to change editability. Only Author can do it.",
+      // isEditable
+      //      //   ? "Failed to change editability. Only Author can do it."
+      //   : "Failed to change editability. Only Author can do it.",
     });
     setIsEditable((prev) => !prev);
   };
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <div className="border rounded-sm md:border-none" onClick={toggleIsEditable}>
+        <div
+          className="border rounded-sm md:border-none"
+          onClick={toggleIsEditable}
+        >
           {initialData.isEditable ? (
             <Button size="icon" variant="ghost" className="group">
               <FileEdit className="md:group-hover:hidden" />
