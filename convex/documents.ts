@@ -351,3 +351,21 @@ export const getPublicDocuments = query({
 
   },
 })
+
+
+
+export const setIsEditable = mutation({
+  args: { id: v.id("documents"), isEditable: v.boolean() },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) throw new Error("Bro how you even got to this page? 💀");
+
+    const userId = identity.subject;
+
+    const existingDocument = await ctx.db.get(args.id);
+    if (existingDocument?.userId !== userId) throw new Error("Failed to change Editability, only Author can change it.");
+
+    const document = await ctx.db.patch(args.id, { isEditable: args.isEditable });
+    return document;
+  }
+})
