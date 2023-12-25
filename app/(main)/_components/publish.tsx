@@ -20,7 +20,7 @@ interface Props {
 
 const Publish = ({ initialData }: Props) => {
   const params = useParams();
-  const publish = useMutation(api.documents.update);
+  const publish = useMutation(api.documents.setIsPublished);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { onOpen } = usePublish();
 
