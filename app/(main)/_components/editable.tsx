@@ -55,8 +55,8 @@ const Editable = ({ initialData }: Props) => {
       <HoverCardContent className="hidden md:block" align="center">
         <div className=" px-2 py-1 mt-2 border rounded-sm text-xs text-muted-foreground">
           {initialData.isEditable
-            ? "Click to make it editable"
-            : "Click to make it non-editable"}
+            ? "Click to make it non-editable"
+            : "Click to make it editable"}  
         </div>
       </HoverCardContent>
     </HoverCard>
