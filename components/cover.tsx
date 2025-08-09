@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useMutation } from "convex/react";
 import { ImageIcon, X } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
@@ -25,7 +25,9 @@ export const Cover = ({ url, preview }: Props) => {
   const { edgestore } = useEdgeStore();
   const coverImage = useCoverImage();
   const removeCoverImage = useMutation(api.documents.removeCoverImage);
-
+  if(!documentId){
+    redirect("/")
+  }
   const onRemoveCoverImage = async () => {
     //* delete it from edgestore
     if (url) await edgestore.publicFiles.delete({ url });

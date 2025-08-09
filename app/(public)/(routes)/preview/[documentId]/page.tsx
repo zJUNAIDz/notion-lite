@@ -7,13 +7,13 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import dynamic from "next/dynamic";
+import { useParams } from "next/navigation";
 import { useMemo } from "react";
-interface Props {
-  params: {
-    documentId: Id<"documents">;
-  };
-}
-const DocumentIdPage = ({ params: { documentId } }: Props) => {
+
+const DocumentIdPage = () => {
+  const params = useParams();
+  const documentId = params.documentId as Id<"documents">;
+
   //* Memoizing editor component
   const Editor = useMemo(
     () => dynamic(() => import("@/components/editor"), { ssr: false }),

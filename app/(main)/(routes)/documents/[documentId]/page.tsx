@@ -8,13 +8,12 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/nextjs";
 import { useMutation, useQuery } from "convex/react";
 import dynamic from "next/dynamic";
+import { useParams } from "next/navigation";
 import { useMemo } from "react";
-interface Props {
-  params: {
-    documentId: Id<"documents">;
-  };
-}
-const DocumentIdPage = ({ params: { documentId } }: Props) => {
+
+const DocumentIdPage = () => {
+  const params = useParams()
+  const documentId = params.documentId as Id<"documents">;
   const userId = useUser().user?.id;
   //* Memoizing editor component
   const Editor = useMemo(
