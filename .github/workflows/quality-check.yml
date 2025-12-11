@@ -1,0 +1,32 @@
+name: Quality Check
+
+# THE TRIGGER
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+# THE WORK
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # server(temp VM) is empty so checkout the code to VM 
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Nodejs
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '18'
+          cache: 'npm'
+      - name: Install Deps 
+        run: npm -ci
+
+      - name: Run Linter 
+        run: npm run lint 
+
+      - name: Check Build 
+        run: npm run build
+
