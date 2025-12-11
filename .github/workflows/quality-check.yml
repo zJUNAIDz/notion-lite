@@ -22,7 +22,7 @@ jobs:
           node-version: '18'
           cache: 'npm'
       - name: Install Deps 
-        run: npm -ci
+        run: npm ci
 
       - name: Run Linter 
         run: npm run lint 
