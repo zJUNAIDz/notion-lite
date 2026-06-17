@@ -266,13 +266,15 @@ export const update = mutation({
     //* any authenticated user, but only its content fields — never its
     //* publish/editability state, which stay owner-only.
     if (existingDocument.isEditable && existingDocument.userId !== userId) {
-      const { title, content, coverImage, icon } = rest;
-      const document = await ctx.db.patch(id, {
-        title,
-        content,
-        coverImage,
-        icon,
-      });
+      //* whitelist content fields, omitting any not provided so we don't
+      //* clear them (patch treats an explicit `undefined` as "remove field").
+      const allowed: Partial<Doc<'documents'>> = {};
+      if (rest.title !== undefined) allowed.title = rest.title;
+      if (rest.content !== undefined) allowed.content = rest.content;
+      if (rest.coverImage !== undefined) allowed.coverImage = rest.coverImage;
+      if (rest.icon !== undefined) allowed.icon = rest.icon;
+
+      const document = await ctx.db.patch(id, allowed);
       return document;
     }
 
