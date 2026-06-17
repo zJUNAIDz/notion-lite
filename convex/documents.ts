@@ -118,10 +118,10 @@ export const archieve = mutation({
 
     }
 
-    const document = ctx.db.patch(existingDocument._id, {
+    const document = await ctx.db.patch(existingDocument._id, {
       isArchieved: true,
     });
-    recursiveArchieve(args.id);
+    await recursiveArchieve(args.id);
     return document;
   }
 })
@@ -174,7 +174,7 @@ export const unArchieve = mutation({
         await ctx.db.patch(child._id, {
           isArchieved: false,
         });
-        recursiveRestore(child._id);
+        await recursiveRestore(child._id);
       }
     }
 
@@ -193,7 +193,7 @@ export const unArchieve = mutation({
       }
     }
     const document = await ctx.db.patch(args.id, options);
-    recursiveRestore(args.id);
+    await recursiveRestore(args.id);
     return document;
   }
 })
@@ -262,11 +262,20 @@ export const update = mutation({
     const existingDocument = await ctx.db.get(id);
     if (!existingDocument) throw new Error('Document not found')
 
-    //* special case 
-    if (existingDocument.isEditable) {
-      const document = await ctx.db.patch(id, { ...rest });
+    //* special case: a collaborative (isEditable) document can be edited by
+    //* any authenticated user, but only its content fields — never its
+    //* publish/editability state, which stay owner-only.
+    if (existingDocument.isEditable && existingDocument.userId !== userId) {
+      const { title, content, coverImage, icon } = rest;
+      const document = await ctx.db.patch(id, {
+        title,
+        content,
+        coverImage,
+        icon,
+      });
       return document;
     }
+
     if (existingDocument.userId !== userId) throw new Error('Unauthorized');
 
     const document = await ctx.db.patch(id, { ...rest })
@@ -330,20 +339,20 @@ export const removeAll = mutation({
       .filter(q => q.eq(q.field('isArchieved'), true))
       .collect();
 
-    documents.forEach(async (document) => {
+    for (const document of documents) {
       await ctx.db.delete(document._id);
-    })
+    }
 
   },
 })
 
 
 export const getPublicDocuments = query({
-  handler(ctx) {
-    const identity = ctx.auth.getUserIdentity()
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity()
     if (!identity) throw new Error("Unauthenticated");
 
-    const documents = ctx.db.query('documents')
+    const documents = await ctx.db.query('documents')
       .filter(q => q.eq(q.field('isPublished'), true))
       .order('desc')
       .collect();
