@@ -111,7 +111,7 @@ export const archieve = mutation({
         .collect();
 
 
-      for (let child of children) {
+      for (const child of children) {
         await ctx.db.patch(child._id, { isArchieved: true });
         await recursiveArchieve(child._id);
       }

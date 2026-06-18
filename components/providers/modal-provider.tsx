@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
+import { useIsClient } from "usehooks-ts";
 import { SettingsModal } from "../modals/settings-modal";
 import { CoverModal } from "../modals/cover-image-modal";
 import PublishLinkModal from "../modals/publish-link-modal";
 
 export const ModalProvider = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useIsClient();
 
   if (!isMounted) return null;
 

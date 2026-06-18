@@ -3,7 +3,8 @@
 import { useUser } from "@clerk/nextjs";
 import { File } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useIsClient } from "usehooks-ts";
 
 import { api } from "@/convex/_generated/api";
 import { useSearch } from "@/hooks/use-search";
@@ -23,16 +24,11 @@ export const SearchCommand = () => {
   const documents = useQuery(api.documents.getUnArchievedDocuments);
   //* Prevent hydration error, we are only gonna render something when it is in client side
   //* Next.js renders some fof client side components for performance but in this case, we want to avoid it.
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useIsClient();
 
   const toggle = useSearch((store) => store.toggle);
   const isOpen = useSearch((store) => store.isOpen);
   const onClose = useSearch((store) => store.onClose);
-
-  //* using this flag, we indicate that we are now in client side and can render our component, or else return null
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     const keyDown = (e: KeyboardEvent) => {

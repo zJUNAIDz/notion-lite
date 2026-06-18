@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Logo from "./Logo";
-import { GithubIcon } from "lucide-react";
+import { GitBranchIcon } from "lucide-react";
 import Link from "next/link";
 
 const Footer = () => {
@@ -15,7 +15,7 @@ const Footer = () => {
           href="https://github.com/zJUNAIDz/notion-clone"
           target="blank"
         >
-          <GithubIcon className="h-4 w-4" /> Source code
+          <GitBranchIcon className="h-4 w-4" /> Source code
         </Link>
       </Button>
     </div>

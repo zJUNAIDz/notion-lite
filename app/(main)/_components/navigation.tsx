@@ -54,17 +54,6 @@ export const Navigation = () => {
   const onOpenSettings = useSettings((store) => store.onOpen);
   //* or use const search = useSearch() and pass search.onOpen to element
 
-  //* sidebar initial form
-  useEffect(() => {
-    if (isMobile) collapse();
-    else resetWidth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile]);
-
-  useEffect(() => {
-    if (isMobile) collapse();
-  }, [pathname, isMobile]);
-
   /**
    * Handles event of holding sidebar border
    * @param event
@@ -147,6 +136,23 @@ export const Navigation = () => {
 
     setTimeout(() => setIsResetting(false), 300);
   };
+
+  //* sidebar initial form
+  //* Sync the sidebar's collapsed/expanded state to the viewport on mount and
+  //* whenever the media query or route changes. Setting state here is
+  //* intentional, so the cascading-render lint rule is disabled for these.
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    if (isMobile) collapse();
+    else resetWidth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (isMobile) collapse();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, isMobile]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   return (
     <>
