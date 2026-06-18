@@ -51,6 +51,7 @@ const DocumentIdPage = () => {
       <div className="md:max-w-3xl lg:max-w-5xl mx-auto">
         <Toolbar initialData={document} preview={!isEditable} />
         <Editor
+          documentId={documentId}
           onChange={onChange}
           initialContent={document.content}
           editable={isEditable}
