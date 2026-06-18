@@ -13,20 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # server(temp VM) is empty so checkout the code to VM 
+      # server(temp VM) is empty so checkout the code to VM
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Setup Nodejs
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: '20'
-          cache: 'npm'
-      - name: Install Deps 
-        run: npm ci
+          bun-version: latest
+      - name: Install Deps
+        run: bun install --frozen-lockfile
 
-      - name: Run Linter 
-        run: npm run lint 
+      - name: Run Linter
+        run: bun run lint
 
-      - name: Check Build 
-        run: npm run build
+      - name: Check Build
+        run: bun run build
 
