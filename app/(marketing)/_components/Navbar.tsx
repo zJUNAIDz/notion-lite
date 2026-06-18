@@ -6,8 +6,7 @@ import Logo from "./Logo";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner";
-import { SignInButton, SignUpButton } from "@clerk/clerk-react";
-import { UserButton } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { useConvexAuth } from "convex/react";
 import Link from "next/link";
 
