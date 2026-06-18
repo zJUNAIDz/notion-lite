@@ -1,11 +1,9 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useOrigin } from "@/hooks/use-origin";
 import { useQuery } from "convex/react";
 import { MenuIcon } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import Banner from "./banner";
 import Editable from "./editable";
@@ -25,14 +23,6 @@ const NavBar = ({ isCollapsed, onResetWidth }: Props) => {
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId as Id<"documents">,
   });
-  const origin = useOrigin();
-  const url = `${origin}/preview/${params.documentId}`;
-  const [copied, setCopied] = useState(false);
-  const onCopy = () => {
-    window.navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1000);
-  };
   if (document === undefined) {
     return (
       <nav className=" bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between">

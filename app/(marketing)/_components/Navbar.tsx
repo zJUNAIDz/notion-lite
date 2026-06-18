@@ -3,7 +3,6 @@ import { useScrollTop } from "@/hooks/use-scroll-top";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 
-import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";

@@ -5,8 +5,8 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserButton, useClerk, useUser } from "@clerk/nextjs";
-import { DropdownMenu, DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
+import { useClerk, useUser } from "@clerk/nextjs";
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { ChevronsUpDown, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 

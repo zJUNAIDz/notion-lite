@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import Spinner from "@/components/ui/spinner";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useUser } from "@clerk/nextjs";
 import { useMutation, useQuery } from "convex/react";
 import { Search, Trash, Undo } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -15,7 +14,6 @@ import { toast } from "sonner";
 const TrashBox = () => {
   const router = useRouter();
   const params = useParams();
-  const { user } = useUser();
   const documents = useQuery(api.documents.getArchieved);
   const restoreNote = useMutation(api.documents.unArchieve);
   const deleteNote = useMutation(api.documents.remove);

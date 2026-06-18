@@ -150,7 +150,6 @@ export const Navigation = () => {
 
   useEffect(() => {
     if (isMobile) collapse();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, isMobile]);
   /* eslint-enable react-hooks/set-state-in-effect */
 

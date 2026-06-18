@@ -1,4 +1,3 @@
-import { ModeToggle } from "@/components/mode-toggle";
 import { TrashButton } from "@/components/trash-button";
 import { Button } from "@/components/ui/button";
 import {

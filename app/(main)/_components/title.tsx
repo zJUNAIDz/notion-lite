@@ -6,12 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
-import React, {
-  ChangeEvent,
-  KeyboardEventHandler,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 
 interface Props {
   initialData: Doc<"documents">;
