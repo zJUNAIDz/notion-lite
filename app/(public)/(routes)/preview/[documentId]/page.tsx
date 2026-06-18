@@ -8,17 +8,14 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import { useMemo } from "react";
+
+//* Editor is loaded dynamically (client-only) at module scope so it isn't
+//* recreated on every render.
+const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 
 const DocumentIdPage = () => {
   const params = useParams();
   const documentId = params.documentId as Id<"documents">;
-
-  //* Memoizing editor component
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/editor"), { ssr: false }),
-    []
-  );
 
   const document = useQuery(api.documents.getById, { documentId });
   const update = useMutation(api.documents.update);
