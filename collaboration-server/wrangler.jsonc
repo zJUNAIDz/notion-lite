@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "notion-lite-collab",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-06-01",
+  "observability": {
+    "enabled": true
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "Y_DURABLE_OBJECTS",
+        "class_name": "YDurableObjects"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      // SQLite-backed Durable Objects are available on the free Workers plan.
+      "new_sqlite_classes": ["YDurableObjects"]
+    }
+  ]
+}
